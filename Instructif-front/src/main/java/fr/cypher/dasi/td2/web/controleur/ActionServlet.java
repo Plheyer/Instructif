@@ -61,6 +61,10 @@ public class ActionServlet extends HttpServlet {
                 new MeStaffAction().execute(request);
                 new StaffSerialisation().appliquer(request, response);
                 break;
+            case "logout":
+                new LogoutAction().execute(request);
+                // Doesn't return anything
+                break;
             default:
                 new ConsulterListeDemandesAction().execute(request);
                 new ListeDemandesSerialisation().appliquer(request, response);

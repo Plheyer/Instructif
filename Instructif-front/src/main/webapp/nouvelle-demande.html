@@ -7,7 +7,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <script src="js/student-auth-middleware.js"></script>
+    <script src="js/student-auth-middleware.js" defer></script>
+    <script src="js/logout.js" defer></script>
     <style>
         :root {
             --bg: #f8fafc;
@@ -103,7 +104,7 @@
                 <div class="avatar">AP</div>
                 <div><div style="font-weight: 600;">Alice Pascal</div><div style="font-size: 0.75rem; color: var(--text-muted);">5ème</div></div>
             </div>
-            <a href="index.html" style="display: block; margin-top: 1rem; font-size: 0.75rem; color: var(--brand); text-decoration: none; font-weight: 600;">Déconnexion</a>
+            <button id="logoutStudentBtn" style="display: block; margin-top: 1rem; font-size: 0.75rem; color: var(--brand); text-decoration: none; font-weight: 600;">Déconnexion</button>
         </div>
     </aside>
 
