@@ -24,7 +24,7 @@
             
             async function listerDemandes() {
                 console.log("Appel de l'Action: Consulter liste demandes");
-                let url = '/td2/ActionServlet'; // TODO : appeler l'ActionServlet pour lister les demandes
+                let url = '/instructif_front/ActionServlet'; // TODO : appeler l'ActionServlet pour lister les demandes
                 let jsonResponse = await fetch(url)
                         .then(
                             function(httpResponse) {

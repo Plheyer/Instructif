@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>fr.cypher.dasi</groupId>
-    <artifactId>TD2</artifactId>
+    <artifactId>Instructif-front</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>TD2-1.0-SNAPSHOT</name>
@@ -20,8 +20,8 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>dasi</groupId>
-            <artifactId>DASI-TD1</artifactId>
+            <groupId>com.samtheo</groupId>
+            <artifactId>Instructif-back</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>

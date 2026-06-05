@@ -4,7 +4,7 @@
  */
 package fr.cypher.dasi.td2.web.controleur;
 
-import dasi.dasi.td1.dao.JpaUtil;
+import com.samtheo.instructif.dao.JpaUtil;
 import fr.cypher.dasi.td2.web.modele.ConsulterListeDemandesAction;
 import fr.cypher.dasi.td2.web.vue.ListeDemandesSerialisation;
 import jakarta.servlet.ServletConfig;
