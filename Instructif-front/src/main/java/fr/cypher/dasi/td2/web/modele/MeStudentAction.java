@@ -27,7 +27,7 @@ public class MeStudentAction extends Action {
             return;
         }
         try {
-            Eleve eleve = (Eleve) request.getAttribute("eleve");
+            Eleve eleve = (Eleve) session.getAttribute("eleve");
             request.setAttribute("eleve", eleve);
         } catch (Exception e) {
             request.setAttribute("eleve", null);

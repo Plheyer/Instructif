@@ -7,6 +7,7 @@ package fr.cypher.dasi.td2.web.modele;
 import com.samtheo.instructif.metier.modele.Eleve;
 import com.samtheo.instructif.metier.service.ServiceEleve;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
@@ -20,6 +21,8 @@ public class LoginStudentAction extends Action {
         String password = request.getParameter("student-password");
         Eleve eleve = new ServiceEleve().authentifierEleve(email, password);
         System.out.println(eleve);
+        HttpSession session = request.getSession();
+        if (session != null) session.setAttribute("eleve", eleve);
         request.setAttribute("eleve", eleve);
     }
 }

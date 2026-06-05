@@ -9,6 +9,7 @@ import com.samtheo.instructif.metier.modele.Intervenant;
 import com.samtheo.instructif.metier.service.ServiceEleve;
 import com.samtheo.instructif.metier.service.ServiceIntervenant;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
@@ -22,6 +23,8 @@ public class LoginStaffAction extends Action {
         String password = request.getParameter("staff-password");
         Intervenant staff = new ServiceIntervenant().authentifierIntervenant(login, password);
         System.out.println(staff);
+        HttpSession session = request.getSession();
+        if (session != null) session.setAttribute("staff", staff);
         request.setAttribute("staff", staff);
     }
 }

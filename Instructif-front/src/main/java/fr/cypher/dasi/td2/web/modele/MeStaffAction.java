@@ -27,7 +27,7 @@ public class MeStaffAction extends Action {
             return;
         }
         try {
-            Intervenant staff = (Intervenant) request.getAttribute("staff");
+            Intervenant staff = (Intervenant) session.getAttribute("staff");
             request.setAttribute("staff", staff);
         } catch (Exception e) {
             request.setAttribute("staff", null);
