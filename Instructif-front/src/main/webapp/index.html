@@ -241,7 +241,7 @@
                 <h2>Espace Élève <span class="role-badge">Élève</span></h2>
                 <p class="card-sub">Identifie-toi pour demander une intervention sur la matière de ton choix.</p>
 
-                <form action="choix-matiere.html" id="student-form">
+                <form action="choix-matiere.html" id="student-form" method="POST">
                     <div class="form-group">
                         <label for="student-email">Adresse Email</label>
                         <input type="email" name="student-email" id="student-email" placeholder="nom@exemple.fr" required>
@@ -262,7 +262,7 @@
                 <h2>Espace Intervenant <span class="role-badge">Intervenant</span></h2>
                 <p class="card-sub">Connecte-toi pour répondre aux demandes des élèves en attente.</p>
 
-                <form action="mes-interventions.html" id="staff-form">
+                <form action="mes-interventions.html" id="staff-form" method="POST">
                     <div class="form-group">
                         <label for="staff-login">Identifiant (Login)</label>
                         <input type="text" name="staff-login" id="staff-login" placeholder="ex: jdupont" required>
