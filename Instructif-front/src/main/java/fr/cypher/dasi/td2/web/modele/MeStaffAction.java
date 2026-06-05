@@ -5,7 +5,7 @@
 package fr.cypher.dasi.td2.web.modele;
 
 import com.samtheo.instructif.metier.modele.Eleve;
-import com.samtheo.instructif.metier.service.ServiceEleve;
+import com.samtheo.instructif.metier.modele.Intervenant;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
@@ -17,20 +17,20 @@ import java.util.Date;
  *
  * @author clemaire
  */
-public class MeStudentAction extends Action {
+public class MeStaffAction extends Action {
 
     @Override
     public void execute(HttpServletRequest request) {
         HttpSession session = request.getSession();
         if (session == null) {
-            request.setAttribute("eleve", null);
+            request.setAttribute("staff", null);
             return;
         }
         try {
-            Eleve eleve = (Eleve) request.getAttribute("eleve");
-            request.setAttribute("eleve", eleve);
+            Intervenant staff = (Intervenant) request.getAttribute("staff");
+            request.setAttribute("staff", staff);
         } catch (Exception e) {
-            request.setAttribute("eleve", null);
+            request.setAttribute("staff", null);
         }
     }
 }

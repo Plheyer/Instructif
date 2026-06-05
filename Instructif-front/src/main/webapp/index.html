@@ -262,17 +262,17 @@
                 <h2>Espace Intervenant <span class="role-badge">Intervenant</span></h2>
                 <p class="card-sub">Connecte-toi pour répondre aux demandes des élèves en attente.</p>
 
-                <form action="mes-interventions.html">
+                <form action="mes-interventions.html" id="staff-form">
                     <div class="form-group">
-                        <label for="iv-login">Identifiant (Login)</label>
-                        <input type="text" id="iv-login" placeholder="ex: jdupont" required>
+                        <label for="staff-login">Identifiant (Login)</label>
+                        <input type="text" name="staff-login" id="staff-login" placeholder="ex: jdupont" required>
                     </div>
                     <div class="form-group">
-                        <label for="iv-mdp">Mot de passe</label>
-                        <input type="password" id="iv-mdp" placeholder="••••••••" required>
+                        <label for="staff-password">Mot de passe</label>
+                        <input type="password" name="staff-password" id="staff-password" placeholder="••••••••" required>
                     </div>
 
-                    <button type="submit" class="btn">Ouvrir ma session</button>
+                    <button id="btnSubmitStaff" type="button" class="btn">Ouvrir ma session</button>
                 </form>
 
                 <p class="footer-link">L'accès intervenant est soumis à validation. <a href="#">En savoir plus</a></p>

@@ -29,7 +29,7 @@ async function connexionStudent() {
 async function connexionStaff() {
     console.log("Appel de l'Action: Connexion Staff");
     const todo = "login-staff";
-    const form = document.getElementById('form');
+    const form = document.getElementById('staff-form');
     const jsonResponse = await formSubmit(form, todo);
     if (jsonResponse && jsonResponse.id) {
         localStorage.setItem("staff", JSON.stringify(jsonResponse));
