@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>Demande en cours | INSTRUCT'IF</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f8fafc;
+            --brand: #4f46e5;
+            --brand-hover: #4338ca;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --card-bg: #ffffff;
+            --sidebar-width: 260px;
+            --mono: 'JetBrains Mono', monospace;
+            --success: #10b981;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        aside { width: var(--sidebar-width); background: #fff; border-right: 1px solid var(--border); display: flex; flex-direction: column; position: fixed; height: 100vh; z-index: 20; }
+        .sidebar-header { padding: 1.5rem; border-bottom: 1px solid var(--border); }
+        .logo { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1.25rem; color: var(--brand); text-decoration: none; }
+        nav { flex: 1; padding: 1.5rem 1rem; }
+        .nav-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; border-radius: 8px; color: var(--text); text-decoration: none; font-size: 0.9375rem; font-weight: 500; transition: all 0.2s; margin-bottom: 0.25rem; }
+        .nav-item:hover { background: #f1f5f9; }
+        .nav-item.active { background: #eef2ff; color: var(--brand); }
+
+        /* Main */
+        main { flex: 1; margin-left: var(--sidebar-width); padding: 2rem 3rem; }
+
+        .status-banner {
+            background: #ecfdf5; border: 1px solid #10b981; padding: 1rem 1.5rem; border-radius: 12px; color: #065f46; font-weight: 600; display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;
+        }
+
+        .pulse { width: 10px; height: 10px; background: #10b981; border-radius: 50%; animation: pulse 2s infinite; }
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        .visio-card { background: #fff; border: 1px solid var(--border); border-radius: 20px; padding: 3rem; text-align: center; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05); margin-bottom: 2rem; }
+        .visio-card h2 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1.5rem; margin-bottom: 1rem; }
+        .visio-card p { color: var(--text-muted); margin-bottom: 2rem; }
+
+        .btn-visio { display: inline-flex; align-items: center; gap: 0.75rem; background: var(--brand); color: #fff; padding: 1rem 2rem; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 1.125rem; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3); transition: all 0.2s; }
+        .btn-visio:hover { background: var(--brand-hover); transform: translateY(-2px); }
+
+        .details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .card { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; }
+        .card h3 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+
+        .data-row { margin-bottom: 1rem; }
+        .data-row label { display: block; font-size: 0.75rem; color: var(--text-muted); }
+        .data-row span { font-weight: 600; }
+
+        .badge-status { background: #eef2ff; color: #4338ca; padding: 2px 8px; border-radius: 4px; font-family: var(--mono); font-size: 0.75rem; }
+
+        .finish-section { margin-top: 3rem; padding: 2rem; background: #f1f5f9; border-radius: 16px; display: flex; justify-content: space-between; align-items: center; }
+        .btn-danger { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; padding: 0.75rem 1.25rem; border-radius: 8px; font-weight: 600; cursor: pointer; }
+        /* Demandes récentes (bloc latéral) */
+        .recent-block { margin: 0 1rem 1rem; padding: 1rem; background: #f8fafc; border: 1px solid var(--border); border-radius: 12px; }
+        .recent-title { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); font-weight: 600; margin-bottom: 0.75rem; }
+        .recent-list { display: flex; flex-direction: column; gap: 0.5rem; }
+        .recent-item { display: block; text-decoration: none; color: var(--text); padding: 0.5rem; border-radius: 8px; transition: background 0.2s; }
+        .recent-item:hover { background: #eef2ff; }
+        .recent-item .ri-theme { font-weight: 600; font-size: 0.75rem; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .recent-item .ri-meta { color: var(--text-muted); font-size: 0.7rem; }
+
+        .sidebar-footer { padding: 1.5rem; border-top: 1px solid var(--border); }
+        .user-pill { display: flex; align-items: center; gap: 0.75rem; font-size: 0.875rem; }
+        .avatar { width: 32px; height: 32px; background: #e2e8f0; border-radius: 9999px; display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--text-muted); }
+    </style>
+</head>
+<body>
+    <aside>
+        <div class="sidebar-header"><a href="choix-matiere.html" class="logo">INSTRUCT'IF</a></div>
+        <nav>
+            <a href="choix-matiere.html" class="nav-item">Matières</a>
+            <a href="#" class="nav-item active">Ma demande</a>
+            <a href="mes-demandes.html" class="nav-item">Mes demandes</a>
+        </nav>
+        <div class="recent-block">
+            <div class="recent-title">Demandes récentes</div>
+            <div class="recent-list">
+                <a href="detail-demande-bilan.html" class="recent-item"><span class="ri-theme">La société féodale au Moyen-Âge</span><span class="ri-meta">Hist-Géo · 12/05</span></a>
+                <a href="detail-demande-bilan.html" class="recent-item"><span class="ri-theme">Théorème de Pythagore</span><span class="ri-meta">Maths · 09/05</span></a>
+                <a href="detail-demande-bilan.html" class="recent-item"><span class="ri-theme">Grammaire</span><span class="ri-meta">Français · 05/05</span></a>
+            </div>
+        </div>
+        <div class="sidebar-footer">
+            <div class="user-pill">
+                <div class="avatar">AP</div>
+                <div><div style="font-weight: 600;">Alice Pascal</div><div style="font-size: 0.75rem; color: var(--text-muted);">5ème</div></div>
+            </div>
+            <a href="index.html" style="display: block; margin-top: 1rem; font-size: 0.75rem; color: var(--brand); text-decoration: none; font-weight: 600;">Déconnexion</a>
+        </div>
+    </aside>
+
+    <main>
+        <div class="status-banner"><div class="pulse"></div>Un intervenant t'attend en visio</div>
+
+        <section class="visio-card">
+            <h2>Accéder à la salle virtuelle</h2>
+            <p>Clique sur le lien ci-dessous pour rejoindre la séance.</p>
+            <a href="#" class="btn-visio">Rejoindre la visio</a>
+        </section>
+
+        <div class="details-grid">
+            <div class="card">
+                <h3>Ma demande</h3>
+                <div class="data-row"><label>Statut</label><span class="badge-status">Session en cours</span></div>
+                <div class="data-row"><label>Thème</label><span>La société féodale au Moyen-Âge · Histoire-Géographie</span></div>
+                <div class="data-row"><label>Description</label><span style="font-weight: 400; font-style: italic;">Je n'ai pas tout compris sur l'ordre seigneurial...</span></div>
+            </div>
+
+            <div class="card">
+                <h3>Horaires</h3>
+                <div class="data-row"><label>Heure de début</label><span>12/05/2026 17:14</span></div>
+                <div class="data-row"><label>Heure de fin</label><span style="color: var(--text-muted); font-weight: 400;">(Disponible après la séance)</span></div>
+            </div>
+        </div>
+
+        <div class="finish-section">
+            <p style="font-size: 0.875rem; color: var(--text-muted); max-width: 550px;">
+                Une fois votre échange terminé, c'est <b>l'intervenant</b> qui se chargera de clôturer la demande et de vous transmettre son bilan.
+            </p>
+        </div>
+    </main>
+</body>
+</html>

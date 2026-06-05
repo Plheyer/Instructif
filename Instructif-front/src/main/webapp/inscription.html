@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>Inscription | INSTRUCT'IF</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script src="js/inscription.js"></script>
+    <style>
+        :root {
+            --bg: #f8fafc;
+            --brand: #4f46e5;
+            --brand-hover: #4338ca;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --card-bg: #ffffff;
+            --primary: #4f46e5;
+            --mono: 'JetBrains Mono', monospace;
+            --danger: #ef4444;
+            --success: #10b981;
+            --warning: #f59e0b;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #fff; border-bottom: 1px solid var(--border); padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 10;
+        }
+
+        .logo { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1.25rem; color: var(--brand); text-decoration: none; }
+        .tag { background: #f1f5f9; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 500; font-family: var(--mono); }
+
+        main { flex: 1; width: 100%; max-width: 900px; margin: 3rem auto; padding: 0 1.5rem; }
+
+        .page-header { margin-bottom: 2.5rem; }
+        .page-header h1 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 2rem; margin-bottom: 0.5rem; }
+        .page-header p { color: var(--text-muted); font-size: 1.125rem; }
+
+        .card { background: var(--card-bg); border-radius: 16px; padding: 2rem; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05); border: 1px solid var(--border); margin-bottom: 2rem; }
+        .card h2 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 1.125rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem; }
+        .card h2 .ent { font-family: var(--mono); font-size: 0.7rem; background: #f1f5f9; padding: 0.125rem 0.5rem; border-radius: 4px; color: var(--text-muted); }
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
+
+        .form-group { margin-bottom: 1.5rem; }
+        label { display: block; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.5rem; }
+        label .req { color: var(--danger); }
+        input, select { width: 100%; padding: 0.75rem 1rem; border-radius: 8px; border: 1px solid var(--border); font-family: inherit; }
+        
+        .hint { display: block; margin-top: 0.5rem; font-size: 0.75rem; color: var(--text-muted); }
+
+        .etab-preview { margin-top: 1.5rem; background: #f8fafc; border-radius: 12px; padding: 1.5rem; border: 1px solid var(--border); }
+        .etab-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
+        .etab-name { font-weight: 600; font-size: 1rem; color: var(--brand); }
+        .etab-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; font-size: 0.8125rem; }
+        .etab-item dt { color: var(--text-muted); font-size: 0.75rem; margin-bottom: 0.125rem; }
+        .etab-item dd { font-weight: 500; }
+
+        .actions { display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2rem; padding: 2rem 0; border-top: 1px solid var(--border); }
+        .btn { padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s; text-decoration: none; }
+        .btn-primary { background: var(--brand); color: white; border: none; }
+        .btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
+
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo">INSTRUCT'IF</a>
+        <div class="nav-info">
+        </div>
+    </header>
+
+    <main>
+        <div class="page-header">
+            <h1>Créer mon compte élève</h1>
+            <p>Rejoins la communauté et bénéficie d'une aide personnalisée.</p>
+        </div>
+
+        <form action="index.html" method="POST" id="form">
+            <!-- Identité -->
+            <section class="card">
+                <h2>Identité <span class="ent">Eleve</span></h2>
+                <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 1.5rem;">Renseigne les informations qui apparaîtront à l'intervenant.</p>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label for="lastName">Nom <span class="req">*</span></label>
+                        <input type="text" id="lastName" name="lastName" placeholder="Pascal" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="firstName">Prénom <span class="req">*</span></label>
+                        <input type="text" id="firstName" name="firstName" placeholder="Alice" required>
+                    </div>
+                </div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label for="date">Date de naissance <span class="req">*</span></label>
+                        <input type="date" id="date" name="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="schoolGrade">Niveau scolaire <span class="req">*</span></label>
+                        <select id="schoolGrade" name="schoolGrade" required>
+                            <option value="" disabled selected>— Sélectionner —</option>
+                            <option value="6">6ème (6)</option>
+                            <option value="5">5ème (5)</option>
+                            <option value="4">4ème (4)</option>
+                            <option value="3">3ème (3)</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Accès -->
+            <section class="card">
+                <h2>Accès au compte <span class="ent">Email / Mot de passe</span></h2>
+                <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 1.5rem;">Ton adresse email sera ton identifiant de connexion.</p>
+                <div class="form-group">
+                    <label for="email">Adresse Email <span class="req">*</span></label>
+                    <input type="email" id="email" name="email" placeholder="alice.pascal@free.fr" required>
+                    <span class="hint">L'inscription échouera si l'email est déjà utilisé.</span>
+                </div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label for="password">Mot de passe <span class="req">*</span></label>
+                        <input type="password" id="password" name="password" placeholder="••••••••" required>
+                        <span class="hint">8 caractères minimum, avec au moins un chiffre.</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="mdp-conf">Confirmation <span class="req">*</span></label>
+                        <input type="password" id="mdp-conf" placeholder="••••••••" required>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Etablissement -->
+            <section class="card">
+                <h2>Établissement <span class="ent">Scolaire</span></h2>
+                <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 1.5rem;">Saisis le code UAI ou cherche par nom.</p>
+                <div class="form-group">
+                    <label for="uai">Code UAI</label>
+                    <input type="text" id="uai" name="uai" value="0691664J" maxlength="8">
+                    <span class="hint">8 caractères (figure sur le carnet de correspondance).</span>
+                </div>
+
+                <div class="etab-preview">
+                    <div class="etab-header">
+                        <span class="etab-name">Collège Jean Jaurès — Villeurbanne</span>
+                        <span class="tag">Éducation Nationale</span>
+                    </div>
+                    <div class="etab-grid">
+                        <div class="etab-item"><dt>Appellation officielle</dt><dd>Collège Jean Jaurès</dd></div>
+                        <div class="etab-item"><dt>Secteur</dt><dd>Public</dd></div>
+                        <div class="etab-item"><dt>Adresse</dt><dd>54 rue Jean Jaurès</dd></div>
+                        <div class="etab-item"><dt>Code postal</dt><dd>69100</dd></div>
+                        <div class="etab-item"><dt>Commune</dt><dd>Villeurbanne</dd></div>
+                        <div class="etab-item"><dt>Département</dt><dd>Rhône</dd></div>
+                        <div class="etab-item"><dt>Académie</dt><dd>Lyon</dd></div>
+                        <div class="etab-item"><dt>Indice Social (IPS)</dt><dd>84,5</dd></div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="actions">
+                <a href="index.html" class="btn btn-ghost">Annuler</a>
+                <button id="btnSubmit" type="button" class="btn btn-primary">Créer mon compte élève</button>
+            </div>
+        </form>
+    </main>
+</body>
+</html>

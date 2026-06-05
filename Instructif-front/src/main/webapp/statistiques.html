@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>Tableau de bord | INSTRUCT'IF</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f8fafc;
+            --brand: #4f46e5;
+            --brand-hover: #4338ca;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --card-bg: #ffffff;
+            --sidebar-width: 260px;
+            --mono: 'JetBrains Mono', monospace;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        aside { width: var(--sidebar-width); background: #fff; border-right: 1px solid var(--border); display: flex; flex-direction: column; position: fixed; height: 100vh; z-index: 20; }
+        .sidebar-header { padding: 1.5rem; border-bottom: 1px solid var(--border); }
+        .logo { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1.25rem; color: var(--brand); text-decoration: none; }
+        nav { flex: 1; padding: 1.5rem 1rem; }
+        .nav-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 0.75rem; padding-left: 0.5rem; font-weight: 600; }
+        .nav-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; border-radius: 8px; color: var(--text); text-decoration: none; font-size: 0.9375rem; font-weight: 500; transition: all 0.2s; margin-bottom: 0.25rem; }
+        .nav-item:hover { background: #f1f5f9; }
+        .nav-item.active { background: #eef2ff; color: var(--brand); }
+        .sidebar-footer { padding: 1.5rem; border-top: 1px solid var(--border); }
+        .user-pill { display: flex; align-items: center; gap: 0.75rem; font-size: 0.875rem; }
+        .avatar { width: 32px; height: 32px; background: #e2e8f0; border-radius: 9999px; display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--text-muted); }
+
+        /* Affectation en cours (bloc latéral intervenant) */
+        .affect-block { margin: 0 1rem 1rem; padding: 1rem; background: #eef2ff; border: 1px solid #c7d2fe; border-radius: 12px; }
+        .affect-title { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--brand); font-weight: 700; margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.4rem; }
+        .affect-dot { width: 8px; height: 8px; background: var(--brand); border-radius: 50%; }
+        .affect-eleve { font-weight: 700; font-size: 0.8125rem; }
+        .affect-theme { display: block; font-size: 0.7rem; color: var(--text-muted); margin-bottom: 0.75rem; }
+        .affect-btn { display: block; text-align: center; background: var(--brand); color: #fff; text-decoration: none; padding: 0.5rem; border-radius: 8px; font-weight: 600; font-size: 0.8rem; transition: background 0.2s; }
+        .affect-btn:hover { background: var(--brand-hover); }
+
+        /* Main */
+        main { flex: 1; margin-left: var(--sidebar-width); padding: 2rem 3rem; }
+        .page-header { margin-bottom: 2.5rem; }
+        .page-header h1 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1.875rem; letter-spacing: -0.02em; }
+        .page-header p { color: var(--text-muted); }
+
+        /* KPI cards */
+        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-bottom: 1.5rem; }
+        .stat-card { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+        .stat-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); font-weight: 600; }
+        .stat-value { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 2.25rem; margin-top: 0.5rem; }
+        .stat-value span { font-size: 1rem; font-weight: 600; color: var(--text-muted); }
+
+        /* Panels (répartitions) */
+        .panels-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+        @media (max-width: 900px) { .stats-grid, .panels-grid { grid-template-columns: 1fr; } }
+        .panel { background: #fff; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+        .panel h2 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 1rem; padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border); }
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th { padding: 0.75rem 1.5rem; font-size: 0.7rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; background: #f8fafc; }
+        td { padding: 0.875rem 1.5rem; border-top: 1px solid #f1f5f9; font-size: 0.875rem; }
+        td.value { text-align: right; font-family: var(--mono); font-weight: 600; }
+    </style>
+</head>
+<body>
+    <aside>
+        <div class="sidebar-header"><a href="mes-interventions.html" class="logo">INSTRUCT'IF</a></div>
+        <nav>
+            <div class="nav-label">Intervenant</div>
+            <a href="mes-interventions.html" class="nav-item">Mes interventions</a>
+            <a href="statistiques.html" class="nav-item active">Statistiques</a>
+        </nav>
+        <div class="affect-block">
+            <div class="affect-title"><span class="affect-dot"></span>Affectation en cours</div>
+            <div class="affect-eleve">Pascal Alice (5ᵉ)</div>
+            <span class="affect-theme">Hist-Géo · La société féodale au Moyen-Âge</span>
+            <a href="demande-prise-en-charge.html" class="affect-btn">Rejoindre ›</a>
+        </div>
+        <div class="sidebar-footer">
+            <div class="user-pill">
+                <div class="avatar">CM</div>
+                <div><div style="font-weight: 600;">Camille Martin</div><div style="font-size: 0.75rem; color: var(--text-muted);">Étudiant</div></div>
+            </div>
+            <a href="index.html" style="display: block; margin-top: 1rem; font-size: 0.75rem; color: var(--brand); text-decoration: none; font-weight: 600;">Déconnexion</a>
+        </div>
+    </aside>
+
+    <main>
+        <header class="page-header">
+            <h1>Tableau de bord</h1>
+            <p>Statistiques du réseau, calculées sur les soutiens terminés.</p>
+        </header>
+
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Nombre de soutiens</div>
+                <div class="stat-value">128</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Durée moyenne</div>
+                <div class="stat-value">21 <span>min</span></div>
+            </div>
+        </section>
+
+        <section class="panels-grid">
+            <div class="panel">
+                <h2>Établissements bénéficiaires par académie</h2>
+                <table>
+                    <thead>
+                        <tr><th>Académie</th><th style="text-align:right;">Établissements</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Lyon</td><td class="value">34</td></tr>
+                        <tr><td>Versailles</td><td class="value">28</td></tr>
+                        <tr><td>Créteil</td><td class="value">22</td></tr>
+                        <tr><td>Nantes</td><td class="value">19</td></tr>
+                        <tr><td>Aix-Marseille</td><td class="value">15</td></tr>
+                        <tr><td>Lille</td><td class="value">11</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="panel">
+                <h2>Établissements bénéficiaires par tranche d'IPS</h2>
+                <table>
+                    <thead>
+                        <tr><th>Tranche d'IPS</th><th style="text-align:right;">Établissements</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>&lt; 85</td><td class="value">41</td></tr>
+                        <tr><td>85 – 99</td><td class="value">37</td></tr>
+                        <tr><td>100 – 114</td><td class="value">28</td></tr>
+                        <tr><td>115 – 129</td><td class="value">15</td></tr>
+                        <tr><td>≥ 130</td><td class="value">7</td></tr>
+                        <tr><td>Non renseigné</td><td class="value">1</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

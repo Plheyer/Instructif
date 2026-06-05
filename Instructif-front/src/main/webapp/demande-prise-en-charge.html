@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>Demande prise en charge | INSTRUCT'IF</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f8fafc;
+            --brand: #4f46e5;
+            --brand-hover: #4338ca;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --card-bg: #ffffff;
+            --sidebar-width: 260px;
+            --mono: 'JetBrains Mono', monospace;
+            --success: #10b981;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        aside { width: var(--sidebar-width); background: #fff; border-right: 1px solid var(--border); display: flex; flex-direction: column; position: fixed; height: 100vh; z-index: 20; }
+        .sidebar-header { padding: 1.5rem; border-bottom: 1px solid var(--border); }
+        .logo { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1.25rem; color: var(--brand); text-decoration: none; }
+        nav { flex: 1; padding: 1.5rem 1rem; }
+        .nav-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; border-radius: 8px; color: var(--text); text-decoration: none; font-size: 0.9375rem; font-weight: 500; transition: all 0.2s; margin-bottom: 0.25rem; }
+        .nav-item:hover { background: #f1f5f9; }
+        .nav-item.active { background: #eef2ff; color: var(--brand); }
+
+        /* Main */
+        main { flex: 1; margin-left: var(--sidebar-width); padding: 2rem 3rem; }
+
+        .status-banner {
+            background: #eef2ff; border: 1px solid var(--brand); padding: 1rem 1.5rem; border-radius: 12px; color: var(--brand); font-weight: 600; display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;
+        }
+
+        .pulse { width: 10px; height: 10px; background: var(--brand); border-radius: 50%; animation: pulse 2s infinite; }
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(79, 70, 229, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(79, 70, 229, 0); }
+        }
+
+        .layout-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; }
+
+        .visio-box {
+            background: #0f172a; border-radius: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; min-height: 350px; margin-bottom: 2rem;
+        }
+
+        .btn-join { background: var(--brand); color: #fff; padding: 1rem 2rem; border-radius: 12px; text-decoration: none; font-weight: 700; display: flex; align-items: center; gap: 0.75rem; }
+
+        .card { background: #fff; border: 1px solid var(--border); border-radius: 20px; padding: 1.5rem; margin-bottom: 1.5rem; }
+        .card h2 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 1rem; margin-bottom: 1.25rem; border-bottom: 1px solid var(--border); padding-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); }
+
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .info-item label { display: block; font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; }
+        .info-item div { font-weight: 600; font-size: 0.875rem; }
+
+        .desc-box { background: #f1f5f9; padding: 1rem; border-radius: 12px; font-style: italic; font-size: 0.875rem; margin-top: 1rem; }
+
+        .etab-box dt { color: var(--text-muted); font-size: 0.7rem; margin-top: 0.5rem; text-transform: uppercase; }
+        .etab-box dd { font-weight: 600; font-size: 0.8125rem; margin-bottom: 0.25rem; }
+
+        .badge-ips { background: #fffbeb; color: #92400e; padding: 2px 6px; border-radius: 4px; font-family: var(--mono); }
+
+        .session-controls { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.12); width: 100%; display: flex; flex-direction: column; align-items: center; gap: 0.75rem; }
+        .session-duration { font-size: 0.8125rem; color: #94a3b8; }
+        .btn-finish { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; padding: 0.6rem 1.5rem; border-radius: 8px; font-weight: 600; cursor: pointer; }
+
+        /* Affectation en cours (bloc latéral intervenant) */
+        .affect-block { margin: 0 1rem 1rem; padding: 1rem; background: #eef2ff; border: 1px solid #c7d2fe; border-radius: 12px; }
+        .affect-title { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--brand); font-weight: 700; margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.4rem; }
+        .affect-dot { width: 8px; height: 8px; background: var(--brand); border-radius: 50%; }
+        .affect-eleve { font-weight: 700; font-size: 0.8125rem; }
+        .affect-theme { display: block; font-size: 0.7rem; color: var(--text-muted); margin-bottom: 0.75rem; }
+        .affect-btn { display: block; text-align: center; background: var(--brand); color: #fff; text-decoration: none; padding: 0.5rem; border-radius: 8px; font-weight: 600; font-size: 0.8rem; transition: background 0.2s; }
+        .affect-btn:hover { background: var(--brand-hover); }
+    </style>
+</head>
+<body>
+    <aside>
+        <div class="sidebar-header"><a href="#" class="logo">INSTRUCT'IF</a></div>
+        <nav>
+            <a href="mes-interventions.html" class="nav-item active">Interventions</a>
+            <a href="statistiques.html" class="nav-item">Statistiques</a>
+        </nav>
+        <div class="affect-block">
+            <div class="affect-title"><span class="affect-dot"></span>Affectation en cours</div>
+            <div class="affect-eleve">Pascal Alice (5ᵉ)</div>
+            <span class="affect-theme">Hist-Géo · La société féodale au Moyen-Âge</span>
+            <a href="demande-prise-en-charge.html" class="affect-btn">Rejoindre ›</a>
+        </div>
+    </aside>
+
+    <main>
+        <div class="status-banner">
+            <div class="pulse"></div>
+            Tu as été sélectionné pour cette demande. Rejoins Alice dès maintenant.
+        </div>
+
+        <div class="layout-grid">
+            <div class="main-col">
+                <section class="visio-box">
+                    <a href="#" class="btn-join">Lancer la visioconférence</a>
+                    <p style="margin-top: 1rem; font-size: 0.75rem; color: #94a3b8;">Lien Visio : https://servif.insa-lyon.fr/InteractIF/visio.html...</p>
+                    <div class="session-controls">
+                        <span class="session-duration">Durée actuelle : <b>17 min</b></span>
+                        <form action="redaction-bilan.html">
+                            <button type="submit" class="btn-finish">Mettre fin à la demande</button>
+                        </form>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2>Demande</h2>
+                    <div class="info-grid">
+                        <div class="info-item"><label>Statut</label><div><span style="color: var(--brand); font-family: var(--mono);">EN_COURS</span></div></div>
+                        <div class="info-item"><label>Début</label><div>12/05/2026 17:14</div></div>
+                        <div class="info-item"><label>Matière</label><div>Histoire-Géographie</div></div>
+                        <div class="info-item"><label>Thème</label><div>La société féodale au Moyen-Âge</div></div>
+                    </div>
+                    <label style="display:block; margin-top:1.5rem; font-size:0.65rem; color:var(--text-muted); font-weight:600; text-transform:uppercase;">Description</label>
+                    <div class="desc-box">"Je n'ai pas tout compris sur l'ordre seigneurial, et je suis bloquée pour commencer mon devoir d'histoire à rendre lundi."</div>
+                </section>
+            </div>
+
+            <div class="side-col">
+                <section class="card">
+                    <h2>Élève</h2>
+                    <div class="etab-box">
+                        <dt>Nom / Prénom</dt><dd>Pascal Alice</dd>
+                        <dt>Date de naissance</dt><dd>14/03/2014</dd>
+                        <dt>Niveau</dt><dd>5ème (5)</dd>
+                        <dt>Email</dt><dd>alice.pascal@free.fr</dd>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2>Établissement</h2>
+                    <div class="etab-box" style="font-size: 0.75rem;">
+                        <dt>Code UAI</dt><dd>0691664J</dd>
+                        <dt>Appellation</dt><dd>Collège Jean Jaurès</dd>
+                        <dt>Secteur</dt><dd>Public</dd>
+                        <dt>IPS</dt><dd><span class="badge-ips">84,5</span></dd>
+                        <dt>Adresse</dt><dd>54 rue Jean Jaurès</dd>
+                        <dt>Ville</dt><dd>69100 Villeurbanne</dd>
+                        <dt>Académie</dt><dd>Lyon (Rhône)</dd>
+                        <dt>Coordonnées</dt><dd style="font-family: var(--mono);">45.7576 ; 4.8834</dd>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+    </main>
+</body>
+</html>

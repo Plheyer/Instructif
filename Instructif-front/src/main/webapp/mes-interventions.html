@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>Mes interventions | INSTRUCT'IF</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f8fafc;
+            --brand: #4f46e5;
+            --brand-hover: #4338ca;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --card-bg: #ffffff;
+            --sidebar-width: 260px;
+            --mono: 'JetBrains Mono', monospace;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        aside { width: var(--sidebar-width); background: #fff; border-right: 1px solid var(--border); display: flex; flex-direction: column; position: fixed; height: 100vh; z-index: 20; }
+        .sidebar-header { padding: 1.5rem; border-bottom: 1px solid var(--border); }
+        .logo { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1.25rem; color: var(--brand); text-decoration: none; }
+        nav { flex: 1; padding: 1.5rem 1rem; }
+        .nav-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 0.75rem; padding-left: 0.5rem; font-weight: 600; }
+        .nav-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; border-radius: 8px; color: var(--text); text-decoration: none; font-size: 0.9375rem; font-weight: 500; transition: all 0.2s; margin-bottom: 0.25rem; }
+        .nav-item:hover { background: #f1f5f9; }
+        .nav-item.active { background: #eef2ff; color: var(--brand); }
+        .sidebar-footer { padding: 1.5rem; border-top: 1px solid var(--border); }
+        .user-pill { display: flex; align-items: center; gap: 0.75rem; font-size: 0.875rem; }
+        .avatar { width: 32px; height: 32px; background: #e2e8f0; border-radius: 9999px; display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--text-muted); }
+
+        /* Main Content */
+        main { flex: 1; margin-left: var(--sidebar-width); padding: 2rem 3rem; }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .page-title h1 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1.875rem; letter-spacing: -0.02em; }
+        
+        .layout-grid { display: grid; grid-template-columns: 1fr 2.5fr; gap: 2rem; }
+
+        .profile-card {
+            background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem;
+        }
+
+        .profile-card h2 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+
+        .profile-item { margin-bottom: 1rem; }
+        .profile-item label { display: block; font-size: 0.65rem; color: var(--text-muted); font-weight: 600; }
+        .profile-item div { font-weight: 600; font-size: 0.875rem; }
+
+        /* Table Area */
+        .table-container {
+            background: #fff; border-radius: 16px; border: 1px solid var(--border); overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
+
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        thead { background: #f8fafc; border-bottom: 1px solid var(--border); }
+        th { padding: 1rem 1.5rem; font-size: 0.75rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+        td { padding: 1.25rem 1.5rem; border-bottom: 1px solid #f1f5f9; font-size: 0.875rem; }
+
+        .badge { display: inline-flex; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; font-family: var(--mono); }
+        .badge-success { background: #ecfdf5; color: #059669; }
+        .badge-danger { background: #fef2f2; color: #dc2626; }
+
+        .link-action { color: var(--brand); text-decoration: none; font-weight: 600; font-size: 0.8125rem; }
+        .link-action:hover { text-decoration: underline; }
+
+        /* Affectation en cours (bloc latéral intervenant) */
+        .affect-block { margin: 0 1rem 1rem; padding: 1rem; background: #eef2ff; border: 1px solid #c7d2fe; border-radius: 12px; }
+        .affect-title { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--brand); font-weight: 700; margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.4rem; }
+        .affect-dot { width: 8px; height: 8px; background: var(--brand); border-radius: 50%; }
+        .affect-eleve { font-weight: 700; font-size: 0.8125rem; }
+        .affect-theme { display: block; font-size: 0.7rem; color: var(--text-muted); margin-bottom: 0.75rem; }
+        .affect-btn { display: block; text-align: center; background: var(--brand); color: #fff; text-decoration: none; padding: 0.5rem; border-radius: 8px; font-weight: 600; font-size: 0.8rem; transition: background 0.2s; }
+        .affect-btn:hover { background: var(--brand-hover); }
+    </style>
+</head>
+<body>
+    <aside>
+        <div class="sidebar-header"><a href="#" class="logo">INSTRUCT'IF</a></div>
+        <nav>
+            <div class="nav-label">Intervenant</div>
+            <a href="mes-interventions.html" class="nav-item active">Mes interventions</a>
+            <a href="statistiques.html" class="nav-item">Statistiques</a>
+        </nav>
+        <div class="affect-block">
+            <div class="affect-title"><span class="affect-dot"></span>Affectation en cours</div>
+            <div class="affect-eleve">Pascal Alice (5ᵉ)</div>
+            <span class="affect-theme">Hist-Géo · La société féodale au Moyen-Âge</span>
+            <a href="demande-prise-en-charge.html" class="affect-btn">Rejoindre ›</a>
+        </div>
+        <div class="sidebar-footer">
+            <div class="user-pill">
+                <div class="avatar">CM</div>
+                <div><div style="font-weight: 600;">Camille Martin</div><div style="font-size: 0.75rem; color: var(--text-muted);">Étudiant</div></div>
+            </div>
+            <a href="index.html" style="display: block; margin-top: 1rem; font-size: 0.75rem; color: var(--brand); text-decoration: none; font-weight: 600;">Déconnexion</a>
+        </div>
+    </aside>
+
+    <main>
+        <header class="page-header">
+            <div class="page-title"><h1>Espace Intervenant</h1></div>
+        </header>
+
+        <div class="layout-grid">
+            <section class="profile-card">
+                <h2>Mon Profil</h2>
+                <div class="profile-item"><label>Nom / Prénom</label><div>MARTIN Camille</div></div>
+                <div class="profile-item"><label>Identifiant</label><div>cmartin</div></div>
+                <div class="profile-item"><label>Téléphone</label><div>06 55 44 77 88</div></div>
+                <div class="profile-item"><label>Niveaux</label><div>6ème → 3ème</div></div>
+                <div class="profile-item"><label>Université</label><div>Sorbonne</div></div>
+                <div class="profile-item"><label>Spécialité</label><div>Langues orientales</div></div>
+            </section>
+
+            <div class="table-area">
+                <h2 style="font-size: 1rem; margin-bottom: 1.25rem; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;">Dernières interventions</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Début</th>
+                                <th>Fin</th>
+                                <th>Élève (Niveau)</th>
+                                <th>Matière › Thème</th>
+                                <th>Statut</th>
+                                <th>Bilan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>12/05/2026 17:14</td>
+                                <td>12/05/2026 17:31</td>
+                                <td>Pascal Alice (5)</td>
+                                <td>HG › La société féodale</td>
+                                <td><span class="badge badge-success">TERMINEE</span></td>
+                                <td><a href="detail-demande-bilan.html" class="link-action">Voir le bilan ›</a></td>
+                            </tr>
+                            <tr>
+                                <td>10/05/2026 18:02</td>
+                                <td>10/05/2026 18:24</td>
+                                <td>Gérard Léo (4)</td>
+                                <td>Maths › Pythagore</td>
+                                <td><span class="badge badge-success">TERMINEE</span></td>
+                                <td><a href="#" class="link-action">Voir le bilan ›</a></td>
+                            </tr>
+                            <tr>
+                                <td>08/05/2026 17:31</td>
+                                <td>08/05/2026 17:49</td>
+                                <td>Boukhari Inès (6)</td>
+                                <td>FR › Accords</td>
+                                <td><span class="badge badge-success">TERMINEE</span></td>
+                                <td><a href="#" class="link-action">Voir le bilan ›</a></td>
+                            </tr>
+                            <tr>
+                                <td>07/05/2026 19:05</td>
+                                <td>07/05/2026 19:05</td>
+                                <td>Salah Marwan (3)</td>
+                                <td>SVT › Génétique</td>
+                                <td><span class="badge badge-danger">ANNULEE</span></td>
+                                <td>—</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

@@ -1,11 +1,282 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Start Page</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    </head>
-    <body>
-        <h1>Hello World!</h1>
-        <a href="demandes.html">Demandes</a>
-    </body>
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>Connexion | INSTRUCT'IF</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f8fafc;
+            --brand: #4f46e5;
+            --brand-hover: #4338ca;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --card-bg: #ffffff;
+            --primary: #4f46e5;
+            --mono: 'JetBrains Mono', monospace;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #fff;
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .logo {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            font-size: 1.25rem;
+            color: var(--brand);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-info {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            display: flex;
+            gap: 1rem;
+        }
+
+        main {
+            flex: 1;
+            width: 100%;
+            max-width: 1000px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .hero h1 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            font-size: 2.25rem;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            font-size: 1.125rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .auth-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .auth-grid { grid-template-columns: 1fr; }
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            border: 1px solid var(--border);
+        }
+
+        .card h2 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .role-badge {
+            font-size: 0.7rem;
+            padding: 0.125rem 0.5rem;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            background: #eef2ff;
+            color: #4338ca;
+            font-weight: 600;
+        }
+
+        .card-sub {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--brand);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .form-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 1.5rem;
+            font-size: 0.875rem;
+        }
+
+        .remember {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .remember input { width: auto; }
+
+        .forgot {
+            color: var(--brand);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .forgot:hover { text-decoration: underline; }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 0.875rem;
+            background: var(--brand);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 2rem;
+        }
+
+        .btn:hover {
+            background: var(--brand-hover);
+        }
+
+        .footer-link {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .footer-link a {
+            color: var(--brand);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer-link a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="#" class="logo">INSTRUCT'IF</a>
+        <div class="nav-info">
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>Bienvenue sur Instruct'if</h1>
+            <p>La plateforme d'entraide scolaire où les élèves trouvent des solutions en direct avec des intervenants qualifiés.</p>
+        </section>
+
+        <div class="auth-grid">
+            <!-- ELEVE -->
+            <section class="card">
+                <h2>Espace Élève <span class="role-badge">Élève</span></h2>
+                <p class="card-sub">Identifie-toi pour demander une intervention sur la matière de ton choix.</p>
+
+                <form action="choix-matiere.html">
+                    <div class="form-group">
+                        <label for="eleve-email">Adresse Email</label>
+                        <input type="email" id="eleve-email" placeholder="nom@exemple.fr" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="eleve-mdp">Mot de passe</label>
+                        <input type="password" id="eleve-mdp" placeholder="••••••••" required>
+                    </div>
+
+                    <button type="submit" class="btn">Accéder à mon espace</button>
+                </form>
+
+                <p class="footer-link">Nouveau ici ? <a href="inscription.html">Créer un compte</a></p>
+            </section>
+
+            <!-- INTERVENANT -->
+            <section class="card">
+                <h2>Espace Intervenant <span class="role-badge">Intervenant</span></h2>
+                <p class="card-sub">Connecte-toi pour répondre aux demandes des élèves en attente.</p>
+
+                <form action="mes-interventions.html">
+                    <div class="form-group">
+                        <label for="iv-login">Identifiant (Login)</label>
+                        <input type="text" id="iv-login" placeholder="ex: jdupont" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="iv-mdp">Mot de passe</label>
+                        <input type="password" id="iv-mdp" placeholder="••••••••" required>
+                    </div>
+
+                    <button type="submit" class="btn">Ouvrir ma session</button>
+                </form>
+
+                <p class="footer-link">L'accès intervenant est soumis à validation. <a href="#">En savoir plus</a></p>
+            </section>
+        </div>
+    </main>
+</body>
 </html>

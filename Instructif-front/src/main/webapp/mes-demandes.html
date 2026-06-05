@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>Mes demandes | INSTRUCT'IF</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f8fafc;
+            --brand: #4f46e5;
+            --brand-hover: #4338ca;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --card-bg: #ffffff;
+            --sidebar-width: 260px;
+            --mono: 'JetBrains Mono', monospace;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        aside { width: var(--sidebar-width); background: #fff; border-right: 1px solid var(--border); display: flex; flex-direction: column; position: fixed; height: 100vh; z-index: 20; }
+        .sidebar-header { padding: 1.5rem; border-bottom: 1px solid var(--border); }
+        .logo { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1.25rem; color: var(--brand); text-decoration: none; }
+        nav { flex: 1; padding: 1.5rem 1rem; }
+        .nav-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; border-radius: 8px; color: var(--text); text-decoration: none; font-size: 0.9375rem; font-weight: 500; transition: all 0.2s; margin-bottom: 0.25rem; }
+        .nav-item:hover { background: #f1f5f9; }
+        .nav-item.active { background: #eef2ff; color: var(--brand); }
+        .sidebar-footer { padding: 1.5rem; border-top: 1px solid var(--border); }
+        .user-pill { display: flex; align-items: center; gap: 0.75rem; font-size: 0.875rem; }
+        .avatar { width: 32px; height: 32px; background: #e2e8f0; border-radius: 9999px; display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--text-muted); }
+
+        /* Demandes récentes (bloc latéral) */
+        .recent-block { margin: 0 1rem 1rem; padding: 1rem; background: #f8fafc; border: 1px solid var(--border); border-radius: 12px; }
+        .recent-title { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); font-weight: 600; margin-bottom: 0.75rem; }
+        .recent-list { display: flex; flex-direction: column; gap: 0.5rem; }
+        .recent-item { display: block; text-decoration: none; color: var(--text); padding: 0.5rem; border-radius: 8px; transition: background 0.2s; }
+        .recent-item:hover { background: #eef2ff; }
+        .recent-item .ri-theme { font-weight: 600; font-size: 0.75rem; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .recent-item .ri-meta { color: var(--text-muted); font-size: 0.7rem; }
+
+        /* Main Content */
+        main { flex: 1; margin-left: var(--sidebar-width); padding: 2rem 3rem; }
+
+        .page-header { margin-bottom: 2.5rem; }
+        .page-header h1 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1.875rem; letter-spacing: -0.02em; }
+        .page-header p { color: var(--text-muted); }
+
+        .table-container { background: #fff; border-radius: 16px; border: 1px solid var(--border); overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        thead { background: #f8fafc; border-bottom: 1px solid var(--border); }
+        th { padding: 1rem 1.5rem; font-size: 0.75rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+        td { padding: 1.25rem 1.5rem; border-bottom: 1px solid #f1f5f9; font-size: 0.875rem; }
+        tbody tr:last-child td { border-bottom: none; }
+        tbody tr:hover { background: #f8fafc; }
+
+        .badge { display: inline-flex; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; font-family: var(--mono); }
+        .badge-success { background: #ecfdf5; color: #059669; }
+        .badge-danger { background: #fef2f2; color: #dc2626; }
+
+        .link-action { color: var(--brand); text-decoration: none; font-weight: 600; font-size: 0.8125rem; }
+        .link-action:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <aside>
+        <div class="sidebar-header"><a href="choix-matiere.html" class="logo">INSTRUCT'IF</a></div>
+        <nav>
+            <a href="choix-matiere.html" class="nav-item">Matières</a>
+            <a href="mes-demandes.html" class="nav-item active">Mes demandes</a>
+        </nav>
+        <div class="recent-block">
+            <div class="recent-title">Demandes récentes</div>
+            <div class="recent-list">
+                <a href="detail-demande-bilan.html" class="recent-item"><span class="ri-theme">La société féodale au Moyen-Âge</span><span class="ri-meta">Hist-Géo · 12/05</span></a>
+                <a href="detail-demande-bilan.html" class="recent-item"><span class="ri-theme">Théorème de Pythagore</span><span class="ri-meta">Maths · 09/05</span></a>
+                <a href="detail-demande-bilan.html" class="recent-item"><span class="ri-theme">Grammaire</span><span class="ri-meta">Français · 05/05</span></a>
+            </div>
+        </div>
+        <div class="sidebar-footer">
+            <div class="user-pill">
+                <div class="avatar">AP</div>
+                <div><div style="font-weight: 600;">Alice Pascal</div><div style="font-size: 0.75rem; color: var(--text-muted);">5ème</div></div>
+            </div>
+            <a href="index.html" style="display: block; margin-top: 1rem; font-size: 0.75rem; color: var(--brand); text-decoration: none; font-weight: 600;">Déconnexion</a>
+        </div>
+    </aside>
+
+    <main>
+        <header class="page-header">
+            <h1>Mes demandes</h1>
+            <p>L'historique complet de tes demandes d'aide.</p>
+        </header>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Matière › Thème</th>
+                        <th>Statut</th>
+                        <th>Détail</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>12/05/2026</td>
+                        <td>Histoire-Géographie › La société féodale au Moyen-Âge</td>
+                        <td><span class="badge badge-success">TERMINEE</span></td>
+                        <td><a href="detail-demande-bilan.html" class="link-action">Voir le détail ›</a></td>
+                    </tr>
+                    <tr>
+                        <td>09/05/2026</td>
+                        <td>Mathématiques › Théorème de Pythagore</td>
+                        <td><span class="badge badge-success">TERMINEE</span></td>
+                        <td><a href="detail-demande-bilan.html" class="link-action">Voir le détail ›</a></td>
+                    </tr>
+                    <tr>
+                        <td>05/05/2026</td>
+                        <td>Français › Grammaire</td>
+                        <td><span class="badge badge-success">TERMINEE</span></td>
+                        <td><a href="detail-demande-bilan.html" class="link-action">Voir le détail ›</a></td>
+                    </tr>
+                    <tr>
+                        <td>02/05/2026</td>
+                        <td>Sciences › Le système solaire</td>
+                        <td><span class="badge badge-success">TERMINEE</span></td>
+                        <td><a href="detail-demande-bilan.html" class="link-action">Voir le détail ›</a></td>
+                    </tr>
+                    <tr>
+                        <td>28/04/2026</td>
+                        <td>Anglais › Past simple</td>
+                        <td><span class="badge badge-danger">ANNULEE</span></td>
+                        <td><span style="color: var(--text-muted);">—</span></td>
+                    </tr>
+                    <tr>
+                        <td>25/04/2026</td>
+                        <td>Histoire-Géographie › La Révolution française</td>
+                        <td><span class="badge badge-success">TERMINEE</span></td>
+                        <td><a href="detail-demande-bilan.html" class="link-action">Voir le détail ›</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</body>
+</html>

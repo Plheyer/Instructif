@@ -6,6 +6,8 @@ package fr.cypher.dasi.td2.web.controleur;
 
 import com.samtheo.instructif.dao.JpaUtil;
 import fr.cypher.dasi.td2.web.modele.ConsulterListeDemandesAction;
+import fr.cypher.dasi.td2.web.modele.InscriptionAction;
+import fr.cypher.dasi.td2.web.vue.InscriptionSerialization;
 import fr.cypher.dasi.td2.web.vue.ListeDemandesSerialisation;
 import jakarta.servlet.ServletConfig;
 import java.io.IOException;
@@ -35,34 +37,33 @@ public class ActionServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String todo = request.getParameter("todo");
-        System.out.println(todo);
-        new ConsulterListeDemandesAction().execute(request);
-        
         response.setContentType("text/html;charset=UTF-8");
-        new ListeDemandesSerialisation().appliquer(request, response);
+        System.out.println(todo);
+        switch (todo) {
+            case "inscription":
+                new InscriptionAction().execute(request);
+                new InscriptionSerialization().appliquer(request, response);
+                break;
+            case "connexion":
+                new ConsulterListeDemandesAction().execute(request);
+                new ListeDemandesSerialisation().appliquer(request, response);
+                break;
+            default:
+                new ConsulterListeDemandesAction().execute(request);
+                new ListeDemandesSerialisation().appliquer(request, response);
+        }
     }
-    
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
-        /* 0: aload_0
-         * 1: aload_1
-         * 2: invokespecial #2                  // Method jakarta/servlet/GenericServlet.init:(Ljakarta/servlet/ServletConfig;)V
-         * 5: aload_0
-         * 6: aload_1
-         * 7: ldc           #4                  // String jakarta.servlet.http.legacyDoHead
-         * 9: invokeinterface #5,  2            // InterfaceMethod jakarta/servlet/ServletConfig.getInitParameter:(Ljava/lang/String;)Ljava/lang/String;
-         * 14: invokestatic  #6                  // Method java/lang/Boolean.parseBoolean:(Ljava/lang/String;)Z
-         * 17: putfield      #7                  // Field legacyHeadHandling:Z
-         * 20: return
-         *  */
-        // </editor-fold>
-        JpaUtil.creerFabriquePersistance();
-    }
-    
+
     @Override
     public void destroy() {
         JpaUtil.fermerFabriquePersistance();
+        super.destroy();
+    }
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        JpaUtil.creerFabriquePersistance();
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

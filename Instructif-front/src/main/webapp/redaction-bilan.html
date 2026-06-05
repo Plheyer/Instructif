@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>Rédaction du bilan | INSTRUCT'IF</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f8fafc;
+            --brand: #4f46e5;
+            --brand-hover: #4338ca;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --card-bg: #ffffff;
+            --sidebar-width: 260px;
+            --mono: 'JetBrains Mono', monospace;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        aside { width: var(--sidebar-width); background: #fff; border-right: 1px solid var(--border); display: flex; flex-direction: column; position: fixed; height: 100vh; z-index: 20; }
+        .sidebar-header { padding: 1.5rem; border-bottom: 1px solid var(--border); }
+        .logo { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1.25rem; color: var(--brand); text-decoration: none; }
+        nav { flex: 1; padding: 1.5rem 1rem; }
+        .nav-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 0.75rem; padding-left: 0.5rem; font-weight: 600; }
+        .nav-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; border-radius: 8px; color: var(--text); text-decoration: none; font-size: 0.9375rem; font-weight: 500; transition: all 0.2s; margin-bottom: 0.25rem; }
+        .nav-item:hover { background: #f1f5f9; }
+        .nav-item.active { background: #eef2ff; color: var(--brand); }
+        .sidebar-footer { padding: 1.5rem; border-top: 1px solid var(--border); }
+
+        /* Main */
+        main { flex: 1; margin-left: var(--sidebar-width); padding: 2rem 3rem; max-width: 1100px; }
+
+        .page-header { margin-bottom: 2.5rem; }
+        .page-header h1 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1.875rem; }
+
+        .summary-card { background: #f8fafc; border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+        .summary-item label { display: block; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem; }
+        .summary-item span { font-weight: 600; font-size: 0.9375rem; }
+
+        .form-card { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 2.5rem; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05); }
+        .form-group { margin-bottom: 2rem; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 0.75rem; }
+        
+        textarea { width: 100%; padding: 1rem; border-radius: 10px; border: 1px solid var(--border); font-family: inherit; font-size: 1rem; }
+
+        .actions { margin-top: 2rem; display: flex; justify-content: flex-end; gap: 1rem; }
+        .btn { padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s; font-size: 0.9375rem; text-decoration: none; }
+        .btn-primary { background: var(--brand); color: #fff; border: none; }
+        .btn-primary:hover { background: var(--brand-hover); }
+        .btn-ghost { background: transparent; color: var(--text-muted); border: 1px solid var(--border); }
+
+        /* Affectation en cours (bloc latéral intervenant) */
+        .affect-block { margin: 0 1rem 1rem; padding: 1rem; background: #eef2ff; border: 1px solid #c7d2fe; border-radius: 12px; }
+        .affect-title { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--brand); font-weight: 700; margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.4rem; }
+        .affect-dot { width: 8px; height: 8px; background: var(--brand); border-radius: 50%; }
+        .affect-eleve { font-weight: 700; font-size: 0.8125rem; }
+        .affect-theme { display: block; font-size: 0.7rem; color: var(--text-muted); margin-bottom: 0.75rem; }
+        .affect-btn { display: block; text-align: center; background: var(--brand); color: #fff; text-decoration: none; padding: 0.5rem; border-radius: 8px; font-weight: 600; font-size: 0.8rem; transition: background 0.2s; }
+        .affect-btn:hover { background: var(--brand-hover); }
+    </style>
+</head>
+<body>
+    <aside>
+        <div class="sidebar-header"><a href="#" class="logo">INSTRUCT'IF</a></div>
+        <nav>
+            <div class="nav-label">Intervenant</div>
+            <a href="mes-interventions.html" class="nav-item active">Mes interventions</a>
+            <a href="statistiques.html" class="nav-item">Statistiques</a>
+        </nav>
+        <div class="affect-block">
+            <div class="affect-title"><span class="affect-dot"></span>Affectation en cours</div>
+            <div class="affect-eleve">Pascal Alice (5ᵉ)</div>
+            <span class="affect-theme">Hist-Géo · La société féodale au Moyen-Âge</span>
+            <a href="demande-prise-en-charge.html" class="affect-btn">Rejoindre ›</a>
+        </div>
+        <div class="sidebar-footer">
+            <div class="user-pill">
+                <div class="avatar">CM</div>
+                <div><div style="font-weight: 600;">Camille Martin</div><div style="font-size: 0.75rem; color: var(--text-muted);">Étudiant</div></div>
+            </div>
+        </div>
+    </aside>
+
+    <main>
+        <div class="page-header">
+            <h1>Rédaction du bilan de séance</h1>
+            <p style="color: var(--text-muted);">Demande clôturée le 12/05/2026 à 17:31</p>
+        </div>
+
+        <section class="summary-card">
+            <div class="summary-item"><label>Élève</label><span>Pascal Alice (5ème)</span></div>
+            <div class="summary-item"><label>Thème travaillé</label><span>Société féodale (Hist-Géo)</span></div>
+            <div class="summary-item"><label>Durée</label><span>17 minutes</span></div>
+        </section>
+
+        <section class="summary-card" style="display: block; background: #fff;">
+            <label style="display: block; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.75rem; font-weight: 600;">Rappel de la demande</label>
+            <div style="font-style: italic; font-size: 0.875rem; color: var(--text-muted);">"Je n'ai pas tout compris sur l'ordre seigneurial, et je suis bloquée pour commencer mon devoir d'histoire à rendre lundi."</div>
+        </section>
+
+        <form action="mes-interventions.html" class="form-card">
+            <div class="form-group">
+                <label for="bilan">Bilan de la séance (texte)</label>
+                <textarea id="bilan" rows="6" placeholder="Quels points ont été abordés ? Quelles étaient les difficultés de l'élève ?">Nous avons revu la hiérarchie féodale et le concept de suzeraineté. Alice a maintenant bien compris l'échange de services entre le seigneur et son vassal.</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="conseils">Conseils (prochaines étapes)</label>
+                <textarea id="conseils" rows="4" placeholder="Quels exercices ou leçons l'élève doit-il revoir ?">Relire la leçon p. 84-85 en t'appuyant sur le schéma de la pyramide. Refaire l'exercice 3 p. 87 avec les mots-clés notés ensemble.</textarea>
+            </div>
+
+            <div class="actions">
+                <a href="mes-interventions.html" class="btn btn-ghost">Annuler</a>
+                <button type="submit" class="btn btn-primary">Envoyer le bilan</button>
+            </div>
+        </form>
+    </main>
+</body>
+</html>
