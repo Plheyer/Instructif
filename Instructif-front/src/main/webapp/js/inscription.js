@@ -1,3 +1,5 @@
+import {formSubmit} from "./formSubmit.js";
+
 async function initPage() {
     console.log("Initialisation de la page");
     document.getElementById("btnSubmit").addEventListener('click', function() {
@@ -8,26 +10,9 @@ async function initPage() {
 
 async function inscription() {
     console.log("Appel de l'Action: Inscription");
-    const todo = "inscription";
+    const todo = "register";
     const form = document.getElementById('form');
-    const formData = new FormData(form);
-    const params = new URLSearchParams();
-    formData.forEach((value, key) => {
-        params.append(key, value.toString());
-    });
-    const url = `ActionServlet?todo=${todo}&${params.toString()}`;
-    const jsonResponse = await fetch(url)
-        .then(
-            function(httpResponse) {
-                return httpResponse.json();
-            }
-        )
-        .catch(
-            function(error) {
-                console.log(error);
-                return null;
-            }
-        );
+    const jsonResponse = await formSubmit(form, todo);
     if (jsonResponse && jsonResponse.result) {
         form.submit();
     }

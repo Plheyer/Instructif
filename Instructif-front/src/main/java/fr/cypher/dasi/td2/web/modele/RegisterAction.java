@@ -16,7 +16,7 @@ import java.util.Date;
  *
  * @author clemaire
  */
-public class InscriptionAction extends Action {
+public class RegisterAction extends Action {
 
     @Override
     public void execute(HttpServletRequest request) {

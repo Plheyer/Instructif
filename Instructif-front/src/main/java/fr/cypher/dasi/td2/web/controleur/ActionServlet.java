@@ -5,13 +5,16 @@
 package fr.cypher.dasi.td2.web.controleur;
 
 import com.samtheo.instructif.dao.JpaUtil;
+import fr.cypher.dasi.td2.web.modele.LoginStudentAction;
 import fr.cypher.dasi.td2.web.modele.ConsulterListeDemandesAction;
-import fr.cypher.dasi.td2.web.modele.InscriptionAction;
-import fr.cypher.dasi.td2.web.vue.InscriptionSerialization;
+import fr.cypher.dasi.td2.web.modele.MeStudentAction;
+import fr.cypher.dasi.td2.web.modele.RegisterAction;
+import fr.cypher.dasi.td2.web.vue.RegisterSerialisation;
 import fr.cypher.dasi.td2.web.vue.ListeDemandesSerialisation;
-import jakarta.servlet.ServletConfig;
+
 import java.io.IOException;
-import java.io.PrintWriter;
+
+import fr.cypher.dasi.td2.web.vue.StudentSerialisation;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -40,13 +43,17 @@ public class ActionServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         System.out.println(todo);
         switch (todo) {
-            case "inscription":
-                new InscriptionAction().execute(request);
-                new InscriptionSerialization().appliquer(request, response);
+            case "register":
+                new RegisterAction().execute(request);
+                new RegisterSerialisation().appliquer(request, response);
                 break;
-            case "connexion":
-                new ConsulterListeDemandesAction().execute(request);
-                new ListeDemandesSerialisation().appliquer(request, response);
+            case "login-student":
+                new LoginStudentAction().execute(request);
+                new StudentSerialisation().appliquer(request, response);
+                break;
+            case "me-student":
+                new MeStudentAction().execute(request);
+                new StudentSerialisation().appliquer(request, response);
                 break;
             default:
                 new ConsulterListeDemandesAction().execute(request);

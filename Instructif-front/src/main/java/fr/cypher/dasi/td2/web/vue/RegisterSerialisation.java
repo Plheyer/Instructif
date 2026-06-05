@@ -15,7 +15,7 @@ import java.io.IOException;
  *
  * @author clemaire
  */
-public class InscriptionSerialization extends Serialisation {
+public class RegisterSerialisation extends Serialisation {
 
     @Override
     public void appliquer(HttpServletRequest request, HttpServletResponse response) throws IOException {
