@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Demandes</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <h1>Demandes</h1>
+        <button id="bouton-lister-demandes">Lister les demandes</button>
+        <h2>Liste des demandes</h2>
+        <a href="index.html">Index</a>
+        <ul id="liste-demandes">
+        </ul>
+        <script>
+            async function initPage() {
+                console.log("Initialisation de la page");
+                document.getElementById('bouton-lister-demandes').addEventListener('click', function() {
+                    console.log("Click sur le bouton 'Lister demandes'");
+                    listerDemandes();
+                });
+                await listerDemandes();
+            };
+            
+            async function listerDemandes() {
+                console.log("Appel de l'Action: Consulter liste demandes");
+                let url = '/td2/ActionServlet'; // TODO : appeler l'ActionServlet pour lister les demandes
+                let jsonResponse = await fetch(url)
+                        .then(
+                            function(httpResponse) {
+                                return httpResponse.json();
+                            }
+                        )
+                        .catch(
+                            function(error) {
+                                console.log(error);
+                                return null;
+                            }
+                        );
+                console.log(jsonResponse);
+                if (jsonResponse) {
+                    console.log('Affichage de la liste de demandes');
+                    console.log(jsonResponse);
+                    const ulEl = document.getElementById('liste-demandes');
+                    ulEl.innerHTML = '';
+                    const liste = jsonResponse;
+                    for (const dt of liste) {
+                        const liEl = document.createElement('li');
+                        const date = new Date(dt.dateCreation);
+                        const dateString = `${date.getDate()}/${date.getMonth()}/${date.getFullYear()} à ${date.getHours()}:${date.getMinutes()}`;
+                        liEl.textContent = "#" + dt.id + " : " + dt.description + " faite le " + dateString;
+                        ulEl.appendChild(liEl);
+                    }
+                }
+            }
+            window.onload = initPage;
+        </script>
+    </body>
+</html>
