@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <script src="js/staff-auth-middleware.js" defer></script>
     <script src="js/logout.js" defer></script>
+    <script type="module" src="js/detail-demande.js"></script>
     <style>
         :root {
             --bg: #f8fafc;
@@ -17,10 +18,11 @@
             --text: #1e293b;
             --text-muted: #64748b;
             --border: #e2e8f0;
-            --card-bg: #ffffff;
             --sidebar-width: 260px;
             --mono: 'JetBrains Mono', monospace;
             --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -38,38 +40,11 @@
         aside { width: var(--sidebar-width); background: #fff; border-right: 1px solid var(--border); display: flex; flex-direction: column; position: fixed; height: 100vh; z-index: 20; }
         .sidebar-header { padding: 1.5rem; border-bottom: 1px solid var(--border); }
         .logo { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1.25rem; color: var(--brand); text-decoration: none; }
-        nav { flex: 1; padding: 1.5rem 1rem; }
+        nav { flex: 1; padding: 1.5rem 1rem; overflow-y: auto; }
+        .nav-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 0.75rem; padding-left: 0.5rem; font-weight: 600; }
         .nav-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; border-radius: 8px; color: var(--text); text-decoration: none; font-size: 0.9375rem; font-weight: 500; transition: all 0.2s; margin-bottom: 0.25rem; }
         .nav-item:hover { background: #f1f5f9; }
         .nav-item.active { background: #eef2ff; color: var(--brand); }
-
-        /* Main */
-        main { flex: 1; margin-left: var(--sidebar-width); padding: 2rem 3rem; max-width: 1000px; }
-
-        .page-header { margin-bottom: 2.5rem; display: flex; justify-content: space-between; align-items: center; }
-        .page-header h1 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1.875rem; }
-
-        .btn-back { display: flex; align-items: center; gap: 0.5rem; color: var(--text-muted); text-decoration: none; font-size: 0.875rem; font-weight: 500; margin-bottom: 1rem; }
-        .btn-back:hover { color: var(--brand); }
-
-        .card { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 2rem; margin-bottom: 2rem; }
-        .card h2 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 1.125rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.75rem; text-transform: uppercase; color: var(--text-muted); }
-
-        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
-        .info-item label { display: block; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem; }
-        .info-item div { font-weight: 600; font-size: 0.9375rem; }
-
-        .bilan-content { background: #f8fafc; border-radius: 12px; padding: 1.5rem; border-left: 4px solid var(--brand); }
-        .bilan-content h3 { font-size: 0.875rem; color: var(--brand); margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
-        .bilan-content p { font-size: 0.9375rem; margin-bottom: 1.5rem; white-space: pre-line; }
-
-        .badge-status { background: #ecfdf5; color: #059669; padding: 2px 8px; border-radius: 4px; font-family: var(--mono); font-size: 0.75rem; font-weight: 700; }
-
-        .intervenant-mini { display: flex; align-items: center; gap: 1rem; margin-top: 1rem; padding: 1rem; background: #f1f5f9; border-radius: 12px; }
-        .mini-avatar { width: 40px; height: 40px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--brand); }
-
-        .expired-hint { font-size: 0.7rem; color: var(--text-muted); margin-top: 0.5rem; display: block; }
-        /* Demandes récentes (bloc latéral) */
         .recent-block { margin: 0 1rem 1rem; padding: 1rem; background: #f8fafc; border: 1px solid var(--border); border-radius: 12px; }
         .recent-title { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); font-weight: 600; margin-bottom: 0.75rem; }
         .recent-list { display: flex; flex-direction: column; gap: 0.5rem; }
@@ -77,76 +52,105 @@
         .recent-item:hover { background: #eef2ff; }
         .recent-item .ri-theme { font-weight: 600; font-size: 0.75rem; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .recent-item .ri-meta { color: var(--text-muted); font-size: 0.7rem; }
-
         .sidebar-footer { padding: 1.5rem; border-top: 1px solid var(--border); }
         .user-pill { display: flex; align-items: center; gap: 0.75rem; font-size: 0.875rem; }
         .avatar { width: 32px; height: 32px; background: #e2e8f0; border-radius: 9999px; display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--text-muted); }
+
+        /* Main */
+        main { flex: 1; margin-left: var(--sidebar-width); padding: 2rem 3rem; max-width: 1000px; }
+
+        .btn-back { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--text-muted); text-decoration: none; font-size: 0.875rem; font-weight: 500; margin-bottom: 1rem; }
+        .btn-back:hover { color: var(--brand); }
+
+        .page-header { margin-bottom: 2.5rem; display: flex; justify-content: space-between; align-items: center; }
+        .page-header h1 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1.875rem; }
+
+        .card { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 2rem; margin-bottom: 2rem; }
+        .card h2 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 1.125rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.75rem; text-transform: uppercase; color: var(--text-muted); }
+
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+        .info-item label { display: block; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem; font-weight: 600; }
+        .info-item div { font-weight: 600; font-size: 0.9375rem; }
+
+        .field-label { display: block; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; font-weight: 600; margin-top: 1.5rem; }
+
+        .bilan-content { background: #f8fafc; border-radius: 12px; padding: 1.5rem; border-left: 4px solid var(--brand); }
+        .bilan-content h3 { font-size: 0.875rem; color: var(--brand); margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+        .bilan-content p { font-size: 0.9375rem; margin-bottom: 1.5rem; white-space: pre-line; }
+        .bilan-content p:last-child { margin-bottom: 0; }
+
+        .badge-status { padding: 2px 8px; border-radius: 4px; font-family: var(--mono); font-size: 0.75rem; font-weight: 700; }
+        .badge-success { background: #ecfdf5; color: #059669; }
+        .badge-danger  { background: #fef2f2; color: #dc2626; }
+        .badge-warning { background: #fffbeb; color: #d97706; }
+
+        .link-action { color: var(--brand); text-decoration: none; font-weight: 600; font-size: 0.875rem; }
+        .link-action:hover { text-decoration: underline; }
+
+        .intervenant-mini { display: flex; align-items: center; gap: 1rem; margin-top: 1.5rem; padding: 1rem; background: #f1f5f9; border-radius: 12px; }
+        .mini-avatar { width: 40px; height: 40px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--brand); flex-shrink: 0; }
     </style>
 </head>
 <body>
     <aside>
-        <div class="sidebar-header"><a href="#" class="logo">INSTRUCT'IF</a></div>
+        <div class="sidebar-header"><a href="mes-interventions.html" class="logo">INSTRUCT'IF</a></div>
         <nav>
-            <a href="choix-matiere.html" class="nav-item">Matières</a>
-            <a href="mes-demandes.html" class="nav-item active">Mes demandes</a>
+            <div class="nav-label">Intervenant</div>
+            <a href="mes-interventions.html" class="nav-item">Mes interventions</a>
+            <a href="statistiques.html" class="nav-item">Statistiques</a>
         </nav>
         <div class="recent-block">
-            <div class="recent-title">Demandes récentes</div>
-            <div class="recent-list">
-                <a href="detail-demande-bilan.html" class="recent-item"><span class="ri-theme">La société féodale au Moyen-Âge</span><span class="ri-meta">Hist-Géo · 12/05</span></a>
-                <a href="detail-demande-bilan.html" class="recent-item"><span class="ri-theme">Théorème de Pythagore</span><span class="ri-meta">Maths · 09/05</span></a>
-                <a href="detail-demande-bilan.html" class="recent-item"><span class="ri-theme">Grammaire</span><span class="ri-meta">Français · 05/05</span></a>
-            </div>
+            <div class="recent-title">Interventions récentes</div>
+            <div id="recent-list" class="recent-list">—</div>
         </div>
         <div class="sidebar-footer">
             <div class="user-pill">
-                <div class="avatar">AP</div>
-                <div><div style="font-weight: 600;">Alice Pascal</div><div style="font-size: 0.75rem; color: var(--text-muted);">5ème</div></div>
+                <div id="sidebar-initials" class="avatar">—</div>
+                <div><div id="sidebar-name" style="font-weight:600;">—</div></div>
             </div>
-            <button id="logoutStaffBtn" style="display: block; background: none; border: 0; cursor: pointer; margin-top: 1rem; font-size: 0.75rem; color: var(--brand); text-decoration: none; font-weight: 600;">Déconnexion</button>
+            <button id="logoutStaffBtn" style="display:block;background:none;border:0;cursor:pointer;margin-top:1rem;font-size:0.75rem;color:var(--brand);font-weight:600;">Déconnexion</button>
         </div>
     </aside>
 
     <main>
         <a href="mes-interventions.html" class="btn-back">← Retour à la liste</a>
-        
+
         <header class="page-header">
-            <h1>Demande du 12 mai 2026</h1>
-            <span class="badge-status">TERMINEE</span>
+            <h1 id="page-title">—</h1>
+            <span id="page-status"></span>
         </header>
 
         <section class="card">
             <h2>Demande</h2>
             <div class="info-grid">
-                <div class="info-item"><label>Thème</label><div>La société féodale au Moyen-Âge</div></div>
-                <div class="info-item"><label>Matière</label><div>Histoire-Géographie</div></div>
-                <div class="info-item"><label>Début</label><div>12/05/2026 17:14</div></div>
-                <div class="info-item"><label>Fin</label><div>12/05/2026 17:31</div></div>
+                <div class="info-item"><label>Thème</label><div id="d-topic">—</div></div>
+                <div class="info-item"><label>Matière</label><div id="d-subject">—</div></div>
+                <div class="info-item"><label>Élève</label><div id="d-student">—</div></div>
+                <div class="info-item"></div>
+                <div class="info-item"><label>Début</label><div id="d-start">—</div></div>
+                <div class="info-item"><label>Fin</label><div id="d-end">—</div></div>
             </div>
-            <div style="margin-top: 1.5rem;">
-                <label style="display: block; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.5rem; font-weight: 600;">Description</label>
-                <div style="font-style: italic; font-size: 0.875rem; color: var(--text-muted);">"Je n'ai pas tout compris sur l'ordre seigneurial, et je suis bloquée pour commencer mon devoir d'histoire à rendre lundi."</div>
-            </div>
-            <div style="margin-top: 1.5rem;">
-                <label style="display: block; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.5rem; font-weight: 600;">Lien Visio</label>
-                <span style="font-size: 0.8125rem; color: var(--text-muted);">Session terminée</span>
-            </div>
+            <label class="field-label">Description</label>
+            <div id="d-description" style="font-style:italic;font-size:0.875rem;color:var(--text-muted);"></div>
+            <label class="field-label">Lien Visio</label>
+            <div id="d-visio" style="font-size:0.8125rem;color:var(--text-muted);"></div>
         </section>
 
-        <section class="card">
+        <section id="bilan-section" class="card">
             <h2>Bilan de la séance</h2>
             <div class="bilan-content">
                 <h3>Résumé</h3>
-                <p>Nous avons revu la hiérarchie féodale et le concept de suzeraineté. Alice a maintenant bien compris l'échange de services entre le seigneur et son vassal (protection vs conseil/aide militaire).</p>
-                <h3>Conseils</h3>
-                <p>Relire la leçon p. 84-85 en t'appuyant sur le schéma de la pyramide. Refaire l'exercice 3 p. 87 avec les mots-clés notés ensemble. Si tu butes encore sur un mot, n'hésite pas à redemander !</p>
+                <p id="b-texte"></p>
+                <div id="b-conseils-block">
+                    <h3>Conseils</h3>
+                    <p id="b-conseils"></p>
+                </div>
             </div>
-
             <div class="intervenant-mini">
-                <div class="mini-avatar">CM</div>
+                <div id="i-initials" class="mini-avatar">—</div>
                 <div>
-                    <div style="font-weight: 600;">Camille MARTIN</div>
-                    <div style="font-size: 0.75rem; color: var(--text-muted);">Intervenant étudiant · Sorbonne · Langues orientales</div>
+                    <div id="i-name" style="font-weight:600;">—</div>
+                    <div id="i-type" style="font-size:0.75rem;color:var(--text-muted);">—</div>
                 </div>
             </div>
         </section>
