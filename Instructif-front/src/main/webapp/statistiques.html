@@ -2,13 +2,14 @@
 <html lang="fr">
 <head>
     <meta charset="utf-8">
-    <title>Tableau de bord | INSTRUCT'IF</title>
+    <title>Statistiques | INSTRUCT'IF</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <script src="js/staff-auth-middleware.js" defer></script>
     <script src="js/logout.js" defer></script>
+    <script type="module" src="js/statistiques.js"></script>
     <style>
         :root {
             --bg: #f8fafc;
@@ -17,7 +18,6 @@
             --text: #1e293b;
             --text-muted: #64748b;
             --border: #e2e8f0;
-            --card-bg: #ffffff;
             --sidebar-width: 260px;
             --mono: 'JetBrains Mono', monospace;
         }
@@ -42,11 +42,6 @@
         .nav-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; border-radius: 8px; color: var(--text); text-decoration: none; font-size: 0.9375rem; font-weight: 500; transition: all 0.2s; margin-bottom: 0.25rem; }
         .nav-item:hover { background: #f1f5f9; }
         .nav-item.active { background: #eef2ff; color: var(--brand); }
-        .sidebar-footer { padding: 1.5rem; border-top: 1px solid var(--border); }
-        .user-pill { display: flex; align-items: center; gap: 0.75rem; font-size: 0.875rem; }
-        .avatar { width: 32px; height: 32px; background: #e2e8f0; border-radius: 9999px; display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--text-muted); }
-
-        /* Affectation en cours (bloc latéral intervenant) */
         .affect-block { margin: 0 1rem 1rem; padding: 1rem; background: #eef2ff; border: 1px solid #c7d2fe; border-radius: 12px; }
         .affect-title { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--brand); font-weight: 700; margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.4rem; }
         .affect-dot { width: 8px; height: 8px; background: var(--brand); border-radius: 50%; }
@@ -54,12 +49,15 @@
         .affect-theme { display: block; font-size: 0.7rem; color: var(--text-muted); margin-bottom: 0.75rem; }
         .affect-btn { display: block; text-align: center; background: var(--brand); color: #fff; text-decoration: none; padding: 0.5rem; border-radius: 8px; font-weight: 600; font-size: 0.8rem; transition: background 0.2s; }
         .affect-btn:hover { background: var(--brand-hover); }
+        .sidebar-footer { padding: 1.5rem; border-top: 1px solid var(--border); }
+        .user-pill { display: flex; align-items: center; gap: 0.75rem; font-size: 0.875rem; }
+        .avatar { width: 32px; height: 32px; background: #e2e8f0; border-radius: 9999px; display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--text-muted); }
 
         /* Main */
         main { flex: 1; margin-left: var(--sidebar-width); padding: 2rem 3rem; }
         .page-header { margin-bottom: 2.5rem; }
         .page-header h1 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1.875rem; letter-spacing: -0.02em; }
-        .page-header p { color: var(--text-muted); }
+        .page-header p { color: var(--text-muted); margin-top: 0.25rem; }
 
         /* KPI cards */
         .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-bottom: 1.5rem; }
@@ -68,7 +66,7 @@
         .stat-value { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 2.25rem; margin-top: 0.5rem; }
         .stat-value span { font-size: 1rem; font-weight: 600; color: var(--text-muted); }
 
-        /* Panels (répartitions) */
+        /* Panels */
         .panels-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
         @media (max-width: 900px) { .stats-grid, .panels-grid { grid-template-columns: 1fr; } }
         .panel { background: #fff; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
@@ -87,18 +85,18 @@
             <a href="mes-interventions.html" class="nav-item">Mes interventions</a>
             <a href="statistiques.html" class="nav-item active">Statistiques</a>
         </nav>
-        <div class="affect-block">
+        <div id="assignment-block" class="affect-block">
             <div class="affect-title"><span class="affect-dot"></span>Affectation en cours</div>
-            <div class="affect-eleve">Pascal Alice (5ᵉ)</div>
-            <span class="affect-theme">Hist-Géo · La société féodale au Moyen-Âge</span>
-            <a href="demande-prise-en-charge.html" class="affect-btn">Rejoindre ›</a>
+            <div id="assignment-student" class="affect-eleve">—</div>
+            <span id="assignment-topic" class="affect-theme">—</span>
+            <a id="assignment-btn" href="demande-prise-en-charge.html" class="affect-btn">Rejoindre ›</a>
         </div>
         <div class="sidebar-footer">
             <div class="user-pill">
-                <div class="avatar">CM</div>
-                <div><div style="font-weight: 600;">Camille Martin</div><div style="font-size: 0.75rem; color: var(--text-muted);">Étudiant</div></div>
+                <div id="sidebar-initials" class="avatar">—</div>
+                <div><div id="sidebar-name" style="font-weight:600;">—</div></div>
             </div>
-            <button id="logoutStaffBtn" style="display: block; background: none; border: 0; cursor: pointer; margin-top: 1rem; font-size: 0.75rem; color: var(--brand); text-decoration: none; font-weight: 600;">Déconnexion</button>
+            <button id="logoutStaffBtn" style="display:block;background:none;border:0;cursor:pointer;margin-top:1rem;font-size:0.75rem;color:var(--brand);font-weight:600;">Déconnexion</button>
         </div>
     </aside>
 
@@ -111,11 +109,11 @@
         <section class="stats-grid">
             <div class="stat-card">
                 <div class="stat-label">Nombre de soutiens</div>
-                <div class="stat-value">128</div>
+                <div id="kpi-total" class="stat-value">—</div>
             </div>
             <div class="stat-card">
                 <div class="stat-label">Durée moyenne</div>
-                <div class="stat-value">21 <span>min</span></div>
+                <div class="stat-value"><span id="kpi-duree">—</span> <span>min</span></div>
             </div>
         </section>
 
@@ -123,34 +121,15 @@
             <div class="panel">
                 <h2>Établissements bénéficiaires par académie</h2>
                 <table>
-                    <thead>
-                        <tr><th>Académie</th><th style="text-align:right;">Établissements</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>Lyon</td><td class="value">34</td></tr>
-                        <tr><td>Versailles</td><td class="value">28</td></tr>
-                        <tr><td>Créteil</td><td class="value">22</td></tr>
-                        <tr><td>Nantes</td><td class="value">19</td></tr>
-                        <tr><td>Aix-Marseille</td><td class="value">15</td></tr>
-                        <tr><td>Lille</td><td class="value">11</td></tr>
-                    </tbody>
+                    <thead><tr><th>Académie</th><th style="text-align:right;">Établissements</th></tr></thead>
+                    <tbody id="tbody-academie"></tbody>
                 </table>
             </div>
-
             <div class="panel">
                 <h2>Établissements bénéficiaires par tranche d'IPS</h2>
                 <table>
-                    <thead>
-                        <tr><th>Tranche d'IPS</th><th style="text-align:right;">Établissements</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>&lt; 85</td><td class="value">41</td></tr>
-                        <tr><td>85 – 99</td><td class="value">37</td></tr>
-                        <tr><td>100 – 114</td><td class="value">28</td></tr>
-                        <tr><td>115 – 129</td><td class="value">15</td></tr>
-                        <tr><td>≥ 130</td><td class="value">7</td></tr>
-                        <tr><td>Non renseigné</td><td class="value">1</td></tr>
-                    </tbody>
+                    <thead><tr><th>Tranche d'IPS</th><th style="text-align:right;">Établissements</th></tr></thead>
+                    <tbody id="tbody-ips"></tbody>
                 </table>
             </div>
         </section>

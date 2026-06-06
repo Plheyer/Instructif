@@ -9,6 +9,7 @@ import fr.cypher.dasi.td2.web.modele.*;
 import fr.cypher.dasi.td2.web.vue.RegisterSerialisation;
 import fr.cypher.dasi.td2.web.vue.ListeDemandesSerialisation;
 import fr.cypher.dasi.td2.web.vue.DetailDemandeSerialisation;
+import fr.cypher.dasi.td2.web.vue.StatistiquesSerialisation;
 import fr.cypher.dasi.td2.web.vue.MyInterventionsSerialisation;
 
 import java.io.IOException;
@@ -70,6 +71,10 @@ public class ActionServlet extends HttpServlet {
             case "detail-demande":
                 new DetailDemandeAction().execute(request);
                 new DetailDemandeSerialisation().appliquer(request, response);
+                break;
+            case "statistiques":
+                new StatistiquesAction().execute(request);
+                new StatistiquesSerialisation().appliquer(request, response);
                 break;
             case "logout":
                 new LogoutAction().execute(request);

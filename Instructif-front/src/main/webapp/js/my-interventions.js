@@ -1,9 +1,5 @@
 import { getStaff } from './localStorage-helper.js';
-
-function formatGrade(n) {
-    const grades = { 6: '6ème', 5: '5ème', 4: '4ème', 3: '3ème', 2: '2nde', 1: '1ère', 0: 'Terminale' };
-    return grades[n] ?? n + 'ème';
-}
+import { formatGrade } from './format.js';
 
 async function fetchMyInterventions() {
     try {
