@@ -1,6 +1,7 @@
 import {formSubmit} from "./formSubmit.js";
+import {setStaff, setStudent} from "./localStorage-helper.js";
 
-async function initPage() {
+async function init() {
     console.log("Initialisation de la page");
     document.getElementById("btnSubmitStudent").addEventListener('click', function() {
         console.log("Click sur le bouton 'Connexion Eleve'");
@@ -18,7 +19,7 @@ async function connexionStudent() {
     const form = document.getElementById('student-form');
     const jsonResponse = await formSubmit(form, todo);
     if (jsonResponse && jsonResponse.id) {
-        localStorage.setItem("student", JSON.stringify(jsonResponse));
+        setStudent(jsonResponse);
         form.submit();
     }
     else {
@@ -32,7 +33,7 @@ async function connexionStaff() {
     const form = document.getElementById('staff-form');
     const jsonResponse = await formSubmit(form, todo);
     if (jsonResponse && jsonResponse.id) {
-        localStorage.setItem("staff", JSON.stringify(jsonResponse));
+        setStaff(jsonResponse);
         form.submit();
     }
     else {
@@ -40,4 +41,4 @@ async function connexionStaff() {
     }
 }
 
-window.onload = initPage;
+window.addEventListener("load", init);

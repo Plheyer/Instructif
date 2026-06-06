@@ -1,6 +1,6 @@
 import {formSubmit} from "./formSubmit.js";
 
-async function initPage() {
+async function init() {
     console.log("Initialisation de la page");
     document.getElementById("btnSubmit").addEventListener('click', function() {
         console.log("Click sur le bouton 'Inscrire'");
@@ -20,4 +20,5 @@ async function inscription() {
         alert("Problème lors de l'inscription, veuillez réessayer plus tard.");
     }
 }
-window.onload = initPage;
+
+window.addEventListener("load", init);

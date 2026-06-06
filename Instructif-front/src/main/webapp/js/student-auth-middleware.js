@@ -10,7 +10,7 @@ async function getMe() {
     }
 }
 
-async function initPage() {
+async function init() {
     const me = await getMe();
     if (!me) {
         console.error("Not logged in.");
@@ -18,4 +18,4 @@ async function initPage() {
     }
 }
 
-window.addEventListener("load", initPage);
+window.addEventListener("load", init);
