@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <script src="js/staff-auth-middleware.js" defer></script>
     <script src="js/logout.js" defer></script>
+    <script type="module" src="js/my-interventions.js"></script>
     <style>
         :root {
             --bg: #f8fafc;
@@ -86,6 +87,7 @@
         .badge { display: inline-flex; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; font-family: var(--mono); }
         .badge-success { background: #ecfdf5; color: #059669; }
         .badge-danger { background: #fef2f2; color: #dc2626; }
+        .badge-warning { background: #fffbeb; color: #d97706; }
 
         .link-action { color: var(--brand); text-decoration: none; font-weight: 600; font-size: 0.8125rem; }
         .link-action:hover { text-decoration: underline; }
@@ -108,16 +110,16 @@
             <a href="mes-interventions.html" class="nav-item active">Mes interventions</a>
             <a href="statistiques.html" class="nav-item">Statistiques</a>
         </nav>
-        <div class="affect-block">
+        <div id="assignment-block" class="affect-block">
             <div class="affect-title"><span class="affect-dot"></span>Affectation en cours</div>
-            <div class="affect-eleve">Pascal Alice (5ᵉ)</div>
-            <span class="affect-theme">Hist-Géo · La société féodale au Moyen-Âge</span>
-            <a href="demande-prise-en-charge.html" class="affect-btn">Rejoindre ›</a>
+            <div id="assignment-student" class="affect-eleve">—</div>
+            <span id="assignment-topic" class="affect-theme">—</span>
+            <a id="assignment-btn" href="demande-prise-en-charge.html" class="affect-btn">Rejoindre ›</a>
         </div>
         <div class="sidebar-footer">
             <div class="user-pill">
-                <div class="avatar">CM</div>
-                <div><div style="font-weight: 600;">Camille Martin</div><div style="font-size: 0.75rem; color: var(--text-muted);">Étudiant</div></div>
+                <div id="sidebar-initials" class="avatar">—</div>
+                <div><div id="sidebar-name" style="font-weight: 600;">—</div></div>
             </div>
             <button id="logoutStaffBtn" style="display: block; background: none; border: 0; cursor: pointer; margin-top: 1rem; font-size: 0.75rem; color: var(--brand); text-decoration: none; font-weight: 600;">Déconnexion</button>
         </div>
@@ -131,12 +133,11 @@
         <div class="layout-grid">
             <section class="profile-card">
                 <h2>Mon Profil</h2>
-                <div class="profile-item"><label>Nom / Prénom</label><div>MARTIN Camille</div></div>
-                <div class="profile-item"><label>Identifiant</label><div>cmartin</div></div>
-                <div class="profile-item"><label>Téléphone</label><div>06 55 44 77 88</div></div>
-                <div class="profile-item"><label>Niveaux</label><div>6ème → 3ème</div></div>
-                <div class="profile-item"><label>Université</label><div>Sorbonne</div></div>
-                <div class="profile-item"><label>Spécialité</label><div>Langues orientales</div></div>
+                <div class="profile-item"><label>Nom / Prénom</label><div id="profile-name">—</div></div>
+                <div class="profile-item"><label>Identifiant</label><div id="profile-login">—</div></div>
+                <div class="profile-item"><label>Téléphone</label><div id="profile-phone">—</div></div>
+                <div class="profile-item"><label>Niveaux</label><div id="profile-grades">—</div></div>
+                <div id="profile-extra"></div>
             </section>
 
             <div class="table-area">
@@ -153,40 +154,7 @@
                                 <th>Bilan</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>12/05/2026 17:14</td>
-                                <td>12/05/2026 17:31</td>
-                                <td>Pascal Alice (5)</td>
-                                <td>HG › La société féodale</td>
-                                <td><span class="badge badge-success">TERMINEE</span></td>
-                                <td><a href="detail-demande-bilan.html" class="link-action">Voir le bilan ›</a></td>
-                            </tr>
-                            <tr>
-                                <td>10/05/2026 18:02</td>
-                                <td>10/05/2026 18:24</td>
-                                <td>Gérard Léo (4)</td>
-                                <td>Maths › Pythagore</td>
-                                <td><span class="badge badge-success">TERMINEE</span></td>
-                                <td><a href="#" class="link-action">Voir le bilan ›</a></td>
-                            </tr>
-                            <tr>
-                                <td>08/05/2026 17:31</td>
-                                <td>08/05/2026 17:49</td>
-                                <td>Boukhari Inès (6)</td>
-                                <td>FR › Accords</td>
-                                <td><span class="badge badge-success">TERMINEE</span></td>
-                                <td><a href="#" class="link-action">Voir le bilan ›</a></td>
-                            </tr>
-                            <tr>
-                                <td>07/05/2026 19:05</td>
-                                <td>07/05/2026 19:05</td>
-                                <td>Salah Marwan (3)</td>
-                                <td>SVT › Génétique</td>
-                                <td><span class="badge badge-danger">ANNULEE</span></td>
-                                <td>—</td>
-                            </tr>
-                        </tbody>
+                        <tbody id="interventions-tbody"></tbody>
                     </table>
                 </div>
             </div>

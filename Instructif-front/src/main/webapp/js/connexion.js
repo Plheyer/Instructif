@@ -20,7 +20,7 @@ async function connexionStudent() {
     const jsonResponse = await formSubmit(form, todo);
     if (jsonResponse && jsonResponse.id) {
         setStudent(jsonResponse);
-        form.submit();
+        window.location.href = form.action;
     }
     else {
         alert("Problème lors de la connexion, veuillez réessayer plus tard.");
@@ -34,7 +34,7 @@ async function connexionStaff() {
     const jsonResponse = await formSubmit(form, todo);
     if (jsonResponse && jsonResponse.id) {
         setStaff(jsonResponse);
-        form.submit();
+        window.location.href = form.action;
     }
     else {
         alert("Problème lors de la connexion, veuillez réessayer plus tard.");
