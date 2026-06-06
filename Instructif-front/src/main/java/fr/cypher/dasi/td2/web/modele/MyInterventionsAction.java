@@ -26,6 +26,14 @@ public class MyInterventionsAction extends Action {
         ServiceIntervenant service = new ServiceIntervenant();
         List<Demande> interventions = service.listerInterventions(staff.getId());
         Demande currentAssignment = service.trouverAffectationCourante(staff.getId());
+
+        System.out.println("[MyInterventions] intervenant=" + staff);
+        System.out.println("[MyInterventions] interventions (" + interventions.size() + ") :");
+        for (Demande d : interventions) {
+            System.out.println("    -> " + d);
+        }
+        System.out.println("[MyInterventions] affectationCourante=" + currentAssignment);
+
         request.setAttribute("interventions", interventions);
         request.setAttribute("currentAssignment", currentAssignment);
     }

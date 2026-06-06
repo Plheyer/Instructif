@@ -8,9 +8,13 @@ function formatGrade(n) {
 async function fetchMyInterventions() {
     try {
         const response = await fetch('ActionServlet?todo=my-interventions');
-        return await response.json();
+        const data = await response.json();
+        console.log('[my-interventions] réponse serveur :', data);
+        console.log('[my-interventions] interventions :', data?.interventions);
+        console.log('[my-interventions] affectation courante :', data?.currentAssignment);
+        return data;
     } catch (error) {
-        console.error(error);
+        console.error('[my-interventions] erreur fetch :', error);
         return null;
     }
 }

@@ -16,6 +16,7 @@ import com.samtheo.instructif.metier.service.ServiceDemande;
 import com.samtheo.instructif.metier.service.ServiceEleve;
 import com.samtheo.instructif.metier.service.ServiceIntervenant;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -59,6 +60,12 @@ public class MainInitialisation {
             seedHistoriqueInterventions(serviceEleve, serviceCatalogue,
                     serviceDemande, serviceBilan);
             afficherCharge(serviceIntervenant);
+
+            titre("5. Historique TERMINÉE pour Camille (test tableau interventions)");
+            seedCamilleHistory(serviceEleve, serviceCatalogue, serviceDemande, serviceBilan, 3);
+
+            titre("6. Demande EN_COURS pour Camille (test bloc affectation)");
+            seedCurrentAssignment(serviceEleve, serviceCatalogue, serviceDemande, serviceBilan);
 
             System.out.println();
             System.out.println(">> Base initialisée (camille.s = intervenant prioritaire). "
@@ -133,6 +140,67 @@ public class MainInitialisation {
         System.out.println("   " + generees + " intervention(s) passée(s) générée(s).");
     }
 
+    private static void seedCamilleHistory(ServiceEleve serviceEleve,
+            ServiceCatalogue serviceCatalogue, ServiceDemande serviceDemande,
+            ServiceBilan serviceBilan, int target) {
+        Eleve eleve = serviceEleve.authentifierEleve("calibrage.demo@instruct.if", "demo");
+        if (eleve == null) {
+            System.out.println("   /!\\ Élève de seed introuvable.");
+            return;
+        }
+        List<Theme> themes = new ArrayList<>();
+        for (Matiere m : serviceCatalogue.listerMatieres()) {
+            themes.addAll(serviceCatalogue.listerThemes(m.getId()));
+        }
+        if (themes.isEmpty()) return;
+
+        int done = 0;
+        int attempts = 0;
+        while (done < target && attempts < target * 6) {
+            Theme theme = themes.get(attempts % themes.size());
+            Demande d = serviceDemande.creerDemande(eleve.getId(), theme.getId(), "Séance de soutien.");
+            if (d != null && d.getStatut() == Statut.EN_COURS) {
+                boolean isCamille = "camille.s".equals(d.getIntervenant().getLogin());
+                String texte = isCamille
+                        ? "L'élève a bien progressé. Les notions abordées sont maîtrisées."
+                        : "Séance finalisée.";
+                String conseils = isCamille ? "Poursuivre les exercices du chapitre suivant." : null;
+                serviceBilan.envoyerBilan(d.getId(), texte, conseils);
+                if (isCamille) done++;
+            }
+            attempts++;
+        }
+        System.out.println("   " + done + "/" + target + " intervention(s) TERMINÉE(s) créées pour Camille.");
+    }
+
+    private static void seedCurrentAssignment(ServiceEleve serviceEleve,
+            ServiceCatalogue serviceCatalogue, ServiceDemande serviceDemande,
+            ServiceBilan serviceBilan) {
+        Eleve eleve = serviceEleve.authentifierEleve("calibrage.demo@instruct.if", "demo");
+        Theme theme = premierTheme(serviceCatalogue);
+        if (eleve == null || theme == null) {
+            System.out.println("   /!\\ Impossible de créer la demande EN_COURS (élève ou thème introuvable).");
+            return;
+        }
+        // Après seedCamilleHistory tous les intervenants sont à égalité.
+        // On donne 1 TERMINÉE supplémentaire à Garcia, Nguyen, Roux (ordre alphabétique)
+        // pour que Camille soit la moins chargée et soit affectée en priorité.
+        for (int i = 0; i < 3; i++) {
+            Demande buf = serviceDemande.creerDemande(eleve.getId(), theme.getId(), "Calibrage final.");
+            if (buf != null && buf.getStatut() == Statut.EN_COURS) {
+                serviceBilan.envoyerBilan(buf.getId(), "Calibrage finalisé.", null);
+            }
+        }
+        Demande enCours = serviceDemande.creerDemande(eleve.getId(), theme.getId(),
+                "Demande de test — affectation en cours pour Camille.");
+        if (enCours != null && enCours.getStatut() == Statut.EN_COURS) {
+            System.out.println("   Demande EN_COURS créée (id=" + enCours.getId()
+                    + ") → affectée à " + enCours.getIntervenant().getLogin());
+        } else {
+            System.out.println("   /!\\ Demande non créée ou annulée (aucun intervenant disponible ?).");
+        }
+    }
+
     private static void afficherCharge(ServiceIntervenant service) {
         String[][] comptes = {
             {"camille.s", "camille123"},
@@ -143,8 +211,11 @@ public class MainInitialisation {
         System.out.println("   Charge (nb interventions, le moins chargé affecté en priorité) :");
         for (String[] c : comptes) {
             Intervenant i = service.authentifierIntervenant(c[0], c[1]);
-            int n = (i != null) ? service.listerInterventions(i.getId()).size() : -1;
-            System.out.println("       " + c[0] + " : " + n);
+            List<Demande> interventions = (i != null) ? service.listerInterventions(i.getId()) : List.of();
+            System.out.println("       " + c[0] + " : " + interventions.size());
+            for (Demande d : interventions) {
+                System.out.println("           -> " + d);
+            }
         }
     }
 
