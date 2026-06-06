@@ -7,13 +7,11 @@ import com.samtheo.instructif.metier.modele.IntervenantAutre;
 import com.samtheo.instructif.metier.modele.IntervenantEnseignant;
 import com.samtheo.instructif.metier.modele.IntervenantEtudiant;
 import jakarta.json.Json;
-import jakarta.json.JsonArrayBuilder;
 import jakarta.json.JsonObjectBuilder;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.List;
 
 public class DetailDemandeSerialisation extends Serialisation {
 
@@ -28,9 +26,6 @@ public class DetailDemandeSerialisation extends Serialisation {
             response.getWriter().print("null");
             return;
         }
-
-        @SuppressWarnings("unchecked")
-        List<Demande> recentes = (List<Demande>) request.getAttribute("recentes");
 
         JsonObjectBuilder root = Json.createObjectBuilder();
 
@@ -79,22 +74,6 @@ public class DetailDemandeSerialisation extends Serialisation {
         }
         iJson.add("typeLabel", typeLabel);
         root.add("intervenant", iJson);
-
-        // Interventions récentes (sidebar)
-        JsonArrayBuilder recentesJson = Json.createArrayBuilder();
-        if (recentes != null) {
-            int count = 0;
-            for (Demande r : recentes) {
-                if (count++ >= 5) break;
-                JsonObjectBuilder rJson = Json.createObjectBuilder();
-                rJson.add("id", r.getId());
-                rJson.add("topic", r.getTheme().getIntitule());
-                rJson.add("subject", r.getTheme().getMatiere().getNom());
-                rJson.add("date", r.getDateHeureDebut() != null ? DATE_FORMAT.format(r.getDateHeureDebut()) : "");
-                recentesJson.add(rJson);
-            }
-        }
-        root.add("recentes", recentesJson);
 
         response.getWriter().print(root.build().toString());
     }

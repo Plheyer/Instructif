@@ -3,10 +3,8 @@ package fr.cypher.dasi.td2.web.modele;
 import com.samtheo.instructif.metier.modele.Demande;
 import com.samtheo.instructif.metier.modele.Intervenant;
 import com.samtheo.instructif.metier.service.ServiceDemande;
-import com.samtheo.instructif.metier.service.ServiceIntervenant;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import java.util.List;
 
 public class DetailDemandeAction extends Action {
 
@@ -34,10 +32,6 @@ public class DetailDemandeAction extends Action {
             return;
         }
 
-        ServiceIntervenant serviceIntervenant = new ServiceIntervenant();
-        List<Demande> recentes = serviceIntervenant.listerInterventions(staff.getId());
-
         request.setAttribute("demande", demande);
-        request.setAttribute("recentes", recentes);
     }
 }

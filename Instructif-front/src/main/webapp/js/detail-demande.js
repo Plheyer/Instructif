@@ -15,7 +15,17 @@ async function fetchDetail(id) {
     }
 }
 
-function renderSidebar(staff, recentes, currentId) {
+async function fetchInterventions() {
+    try {
+        const res = await fetch('ActionServlet?todo=my-interventions');
+        return await res.json();
+    } catch (err) {
+        console.error('[detail-demande] erreur fetch interventions :', err);
+        return null;
+    }
+}
+
+function renderSidebar(staff, interventionsData, currentId) {
     if (staff) {
         document.getElementById('sidebar-initials').textContent =
             (staff.firstName[0] + staff.lastName[0]).toUpperCase();
@@ -24,7 +34,8 @@ function renderSidebar(staff, recentes, currentId) {
     }
 
     const list = document.getElementById('recent-list');
-    if (!recentes || recentes.length === 0) {
+    const recentes = interventionsData?.interventions?.slice(0, 5) ?? [];
+    if (recentes.length === 0) {
         list.innerHTML = '<span style="font-size:0.75rem;color:var(--text-muted)">Aucune intervention</span>';
         return;
     }
@@ -32,7 +43,7 @@ function renderSidebar(staff, recentes, currentId) {
         const isActive = r.id === currentId ? 'style="background:#eef2ff"' : '';
         return `<a href="detail-demande-bilan.html?id=${r.id}" class="recent-item" ${isActive}>
             <span class="ri-theme">${r.topic}</span>
-            <span class="ri-meta">${r.subject} · ${r.date}</span>
+            <span class="ri-meta">${r.subject} · ${r.startDate}</span>
         </a>`;
     }).join('');
 }
@@ -91,11 +102,14 @@ async function init() {
     const id = parseInt(params.get('id'), 10);
 
     const staff = getStaff();
-    const data = await fetchDetail(id);
-    if (!data) return;
+    const [detail, interventionsData] = await Promise.all([
+        fetchDetail(id),
+        fetchInterventions()
+    ]);
+    if (!detail) return;
 
-    renderSidebar(staff, data.recentes, id);
-    render(data, id);
+    renderSidebar(staff, interventionsData, id);
+    render(detail, id);
 }
 
 window.addEventListener('load', init);
