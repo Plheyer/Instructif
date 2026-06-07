@@ -4,24 +4,15 @@
  */
 package fr.cypher.dasi.td2.web.modele;
 
-import com.samtheo.instructif.metier.modele.Eleve;
 import com.samtheo.instructif.metier.modele.Intervenant;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
-/**
- *
- * @author clemaire
- */
 public class MeStaffAction extends Action {
 
     @Override
     public void execute(HttpServletRequest request) {
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
         if (session == null) {
             request.setAttribute("staff", null);
             return;

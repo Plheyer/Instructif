@@ -51,7 +51,7 @@ function statusBadge(status) {
 }
 
 function render(data, currentId) {
-    const { demande, bilan, intervenant } = data;
+    const { demande, eleve, bilan, intervenant } = data;
 
     // En-tête
     document.getElementById('page-title').textContent = demande.startDate
@@ -63,7 +63,7 @@ function render(data, currentId) {
     document.getElementById('d-topic').textContent = demande.topic;
     document.getElementById('d-subject').textContent = demande.subject;
     document.getElementById('d-student').textContent =
-        `${demande.studentFirstName} ${demande.studentLastName} (${formatGrade(demande.studentGrade)})`;
+        `${eleve.firstName} ${eleve.lastName} (${formatGrade(eleve.grade)})`;
     document.getElementById('d-start').textContent = demande.startDate || '—';
     document.getElementById('d-end').textContent = demande.endDate || '—';
     document.getElementById('d-description').textContent = demande.description;

@@ -2,6 +2,8 @@ package fr.cypher.dasi.td2.web.vue;
 
 import com.samtheo.instructif.metier.modele.Bilan;
 import com.samtheo.instructif.metier.modele.Demande;
+import com.samtheo.instructif.metier.modele.Eleve;
+import com.samtheo.instructif.metier.modele.Etablissement;
 import com.samtheo.instructif.metier.modele.Intervenant;
 import com.samtheo.instructif.metier.modele.IntervenantAutre;
 import com.samtheo.instructif.metier.modele.IntervenantEnseignant;
@@ -15,7 +17,8 @@ import java.text.SimpleDateFormat;
 
 public class DetailDemandeSerialisation extends Serialisation {
 
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+    private static final SimpleDateFormat DATE_FORMAT      = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+    private static final SimpleDateFormat DATE_ONLY_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
 
     @Override
     public void appliquer(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -29,6 +32,11 @@ public class DetailDemandeSerialisation extends Serialisation {
 
         JsonObjectBuilder root = Json.createObjectBuilder();
 
+        // Shape: { demande, eleve, etablissement, bilan, intervenant }
+        // eleve/etablissement are top-level (not nested in demande) so pages that only
+        // need student data (demande-prise-en-charge, redaction-bilan) don't have to
+        // reach into demande's structure, and detail-demande-bilan can read both.
+
         // Demande
         JsonObjectBuilder dJson = Json.createObjectBuilder();
         dJson.add("id", demande.getId());
@@ -37,12 +45,43 @@ public class DetailDemandeSerialisation extends Serialisation {
         dJson.add("status", demande.getStatut().name());
         dJson.add("description", demande.getDescription());
         dJson.add("meetingLink", demande.getLienVisio() != null ? demande.getLienVisio() : "");
-        dJson.add("studentLastName", demande.getEleve().getNom());
-        dJson.add("studentFirstName", demande.getEleve().getPrenom());
-        dJson.add("studentGrade", demande.getEleve().getNiveau());
         dJson.add("subject", demande.getTheme().getMatiere().getNom());
         dJson.add("topic", demande.getTheme().getIntitule());
         root.add("demande", dJson);
+
+        // Eleve complet
+        Eleve eleve = demande.getEleve();
+        JsonObjectBuilder eleveJson = Json.createObjectBuilder();
+        eleveJson.add("lastName",  eleve.getNom());
+        eleveJson.add("firstName", eleve.getPrenom());
+        eleveJson.add("grade",     eleve.getNiveau());
+        eleveJson.add("email",     eleve.getEmail() != null ? eleve.getEmail() : "");
+        if (eleve.getDateNaissance() != null) {
+            eleveJson.add("birthDate", DATE_ONLY_FORMAT.format(eleve.getDateNaissance()));
+        } else {
+            eleveJson.addNull("birthDate");
+        }
+        root.add("eleve", eleveJson);
+
+        // Etablissement
+        Etablissement etab = eleve.getEtablissement();
+        if (etab != null) {
+            JsonObjectBuilder etJson = Json.createObjectBuilder();
+            etJson.add("codeUAI",          etab.getCodeUAI()              != null ? etab.getCodeUAI()              : "");
+            etJson.add("appellation",      etab.getAppellationOfficielle() != null ? etab.getAppellationOfficielle() : "");
+            etJson.add("secteur",          etab.getSecteur()              != null ? etab.getSecteur()              : "");
+            etJson.add("adresse",          etab.getAdresse()              != null ? etab.getAdresse()              : "");
+            etJson.add("codePostal",       etab.getCodePostal()           != null ? etab.getCodePostal()           : "");
+            etJson.add("commune",          etab.getCommune()              != null ? etab.getCommune()              : "");
+            etJson.add("latitude",         etab.getLatitude());
+            etJson.add("longitude",        etab.getLongitude());
+            etJson.add("libelleDepartement", etab.getLibelleDepartement() != null ? etab.getLibelleDepartement()   : "");
+            etJson.add("libelleAcademie",  etab.getLibelleAcademie()      != null ? etab.getLibelleAcademie()      : "");
+            etJson.add("ips",              etab.getIps());
+            root.add("etablissement", etJson);
+        } else {
+            root.addNull("etablissement");
+        }
 
         // Bilan
         Bilan bilan = demande.getBilan();

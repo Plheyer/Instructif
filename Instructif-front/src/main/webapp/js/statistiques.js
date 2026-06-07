@@ -35,7 +35,7 @@ function renderSidebar(staff, currentAssignment) {
     document.getElementById('assignment-topic').textContent =
         `${currentAssignment.subject} · ${currentAssignment.topic}`;
     const btn = document.getElementById('assignment-btn');
-    if (currentAssignment.meetingLink) btn.href = currentAssignment.meetingLink;
+    btn.href = 'demande-prise-en-charge.html?id=' + currentAssignment.id;
 }
 
 function renderTable(tbodyId, rows) {

@@ -11,6 +11,7 @@ import fr.cypher.dasi.td2.web.vue.ListeDemandesSerialisation;
 import fr.cypher.dasi.td2.web.vue.DetailDemandeSerialisation;
 import fr.cypher.dasi.td2.web.vue.StatistiquesSerialisation;
 import fr.cypher.dasi.td2.web.vue.MyInterventionsSerialisation;
+import fr.cypher.dasi.td2.web.vue.EnvoyerBilanSerialisation;
 
 import java.io.IOException;
 
@@ -75,6 +76,10 @@ public class ActionServlet extends HttpServlet {
             case "statistiques":
                 new StatistiquesAction().execute(request);
                 new StatistiquesSerialisation().appliquer(request, response);
+                break;
+            case "envoyer-bilan":
+                new EnvoyerBilanAction().execute(request);
+                new EnvoyerBilanSerialisation().appliquer(request, response);
                 break;
             case "logout":
                 new LogoutAction().execute(request);

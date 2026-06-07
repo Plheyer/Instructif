@@ -8,6 +8,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <script src="js/staff-auth-middleware.js" defer></script>
+    <script src="js/logout.js" defer></script>
+    <script type="module" src="js/demande-prise-en-charge.js"></script>
     <style>
         :root {
             --bg: #f8fafc;
@@ -38,9 +40,13 @@
         .sidebar-header { padding: 1.5rem; border-bottom: 1px solid var(--border); }
         .logo { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1.25rem; color: var(--brand); text-decoration: none; }
         nav { flex: 1; padding: 1.5rem 1rem; }
+        .nav-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 0.75rem; padding-left: 0.5rem; font-weight: 600; }
         .nav-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; border-radius: 8px; color: var(--text); text-decoration: none; font-size: 0.9375rem; font-weight: 500; transition: all 0.2s; margin-bottom: 0.25rem; }
         .nav-item:hover { background: #f1f5f9; }
         .nav-item.active { background: #eef2ff; color: var(--brand); }
+        .sidebar-footer { padding: 1.5rem; border-top: 1px solid var(--border); }
+        .user-pill { display: flex; align-items: center; gap: 0.75rem; font-size: 0.875rem; }
+        .avatar { width: 32px; height: 32px; background: #e2e8f0; border-radius: 9999px; display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--text-muted); }
 
         /* Main */
         main { flex: 1; margin-left: var(--sidebar-width); padding: 2rem 3rem; }
@@ -49,7 +55,7 @@
             background: #eef2ff; border: 1px solid var(--brand); padding: 1rem 1.5rem; border-radius: 12px; color: var(--brand); font-weight: 600; display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;
         }
 
-        .pulse { width: 10px; height: 10px; background: var(--brand); border-radius: 50%; animation: pulse 2s infinite; }
+        .pulse { width: 10px; height: 10px; background: var(--brand); border-radius: 50%; animation: pulse 2s infinite; flex-shrink: 0; }
         @keyframes pulse {
             0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.7); }
             70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(79, 70, 229, 0); }
@@ -80,7 +86,7 @@
 
         .session-controls { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.12); width: 100%; display: flex; flex-direction: column; align-items: center; gap: 0.75rem; }
         .session-duration { font-size: 0.8125rem; color: #94a3b8; }
-        .btn-finish { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; padding: 0.6rem 1.5rem; border-radius: 8px; font-weight: 600; cursor: pointer; }
+        .btn-finish { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; padding: 0.6rem 1.5rem; border-radius: 8px; font-weight: 600; text-decoration: none; display: inline-block; }
 
         /* Affectation en cours (bloc latéral intervenant) */
         .affect-block { margin: 0 1rem 1rem; padding: 1rem; background: #eef2ff; border: 1px solid #c7d2fe; border-radius: 12px; }
@@ -96,76 +102,80 @@
     <aside>
         <div class="sidebar-header"><a href="#" class="logo">INSTRUCT'IF</a></div>
         <nav>
+            <div class="nav-label">Intervenant</div>
             <a href="mes-interventions.html" class="nav-item active">Interventions</a>
             <a href="statistiques.html" class="nav-item">Statistiques</a>
         </nav>
-        <div class="affect-block">
+        <div id="assignment-block" class="affect-block">
             <div class="affect-title"><span class="affect-dot"></span>Affectation en cours</div>
-            <div class="affect-eleve">Pascal Alice (5ᵉ)</div>
-            <span class="affect-theme">Hist-Géo · La société féodale au Moyen-Âge</span>
-            <a href="demande-prise-en-charge.html" class="affect-btn">Rejoindre ›</a>
+            <div id="assignment-student" class="affect-eleve">—</div>
+            <span id="assignment-topic" class="affect-theme">—</span>
+            <a id="assignment-btn" href="#" class="affect-btn">Rejoindre ›</a>
+        </div>
+        <div class="sidebar-footer">
+            <div class="user-pill">
+                <div id="sidebar-initials" class="avatar">—</div>
+                <div><div id="sidebar-name" style="font-weight:600;">—</div></div>
+            </div>
+            <button id="logoutStaffBtn" style="display:block;background:none;border:0;cursor:pointer;margin-top:1rem;font-size:0.75rem;color:var(--brand);font-weight:600;">Déconnexion</button>
         </div>
     </aside>
 
     <main>
         <div class="status-banner">
             <div class="pulse"></div>
-            Tu as été sélectionné pour cette demande. Rejoins Alice dès maintenant.
+            <span id="banner-text">Chargement…</span>
         </div>
 
         <div class="layout-grid">
             <div class="main-col">
                 <section class="visio-box">
-                    <a href="#" class="btn-join">Lancer la visioconférence</a>
-                    <p style="margin-top: 1rem; font-size: 0.75rem; color: #94a3b8;">Lien Visio : https://servif.insa-lyon.fr/InteractIF/visio.html...</p>
+                    <a id="visio-link" href="#" target="_blank" rel="noopener" class="btn-join">Lancer la visioconférence</a>
+                    <p id="visio-url" style="margin-top:1rem;font-size:0.75rem;color:#94a3b8;">—</p>
                     <div class="session-controls">
-                        <span class="session-duration">Durée actuelle : <b>17 min</b></span>
-                        <form action="redaction-bilan.html">
-                            <button type="submit" class="btn-finish">Mettre fin à la demande</button>
-                        </form>
+                        <a id="end-btn" href="#" class="btn-finish">Mettre fin à la demande</a>
                     </div>
                 </section>
 
                 <section class="card">
                     <h2>Demande</h2>
                     <div class="info-grid">
-                        <div class="info-item"><label>Statut</label><div><span style="color: var(--brand); font-family: var(--mono);">EN_COURS</span></div></div>
-                        <div class="info-item"><label>Début</label><div>12/05/2026 17:14</div></div>
-                        <div class="info-item"><label>Matière</label><div>Histoire-Géographie</div></div>
-                        <div class="info-item"><label>Thème</label><div>La société féodale au Moyen-Âge</div></div>
+                        <div class="info-item"><label>Statut</label><div><span id="dem-status" style="color:var(--brand);font-family:var(--mono);">—</span></div></div>
+                        <div class="info-item"><label>Début</label><div id="dem-start">—</div></div>
+                        <div class="info-item"><label>Matière</label><div id="dem-subject">—</div></div>
+                        <div class="info-item"><label>Thème</label><div id="dem-topic">—</div></div>
                     </div>
-                    <label style="display:block; margin-top:1.5rem; font-size:0.65rem; color:var(--text-muted); font-weight:600; text-transform:uppercase;">Description</label>
-                    <div class="desc-box">"Je n'ai pas tout compris sur l'ordre seigneurial, et je suis bloquée pour commencer mon devoir d'histoire à rendre lundi."</div>
+                    <label style="display:block;margin-top:1.5rem;font-size:0.65rem;color:var(--text-muted);font-weight:600;text-transform:uppercase;">Description</label>
+                    <div id="dem-description" class="desc-box">—</div>
                 </section>
             </div>
 
             <div class="side-col">
                 <section class="card">
                     <h2>Élève</h2>
-                    <div class="etab-box">
-                        <dt>Nom / Prénom</dt><dd>Pascal Alice</dd>
-                        <dt>Date de naissance</dt><dd>14/03/2014</dd>
-                        <dt>Niveau</dt><dd>5ème (5)</dd>
-                        <dt>Email</dt><dd>alice.pascal@free.fr</dd>
-                    </div>
+                    <dl class="etab-box">
+                        <dt>Nom / Prénom</dt><dd id="eleve-name">—</dd>
+                        <dt>Date de naissance</dt><dd id="eleve-birth">—</dd>
+                        <dt>Niveau</dt><dd id="eleve-grade">—</dd>
+                        <dt>Email</dt><dd id="eleve-email">—</dd>
+                    </dl>
                 </section>
 
-                <section class="card">
+                <section id="etab-card" class="card">
                     <h2>Établissement</h2>
-                    <div class="etab-box" style="font-size: 0.75rem;">
-                        <dt>Code UAI</dt><dd>0691664J</dd>
-                        <dt>Appellation</dt><dd>Collège Jean Jaurès</dd>
-                        <dt>Secteur</dt><dd>Public</dd>
-                        <dt>IPS</dt><dd><span class="badge-ips">84,5</span></dd>
-                        <dt>Adresse</dt><dd>54 rue Jean Jaurès</dd>
-                        <dt>Ville</dt><dd>69100 Villeurbanne</dd>
-                        <dt>Académie</dt><dd>Lyon (Rhône)</dd>
-                        <dt>Coordonnées</dt><dd style="font-family: var(--mono);">45.7576 ; 4.8834</dd>
-                    </div>
+                    <dl class="etab-box" style="font-size:0.75rem;">
+                        <dt>Code UAI</dt><dd id="etab-uai">—</dd>
+                        <dt>Appellation</dt><dd id="etab-appellation">—</dd>
+                        <dt>Secteur</dt><dd id="etab-secteur">—</dd>
+                        <dt>IPS</dt><dd><span id="etab-ips" class="badge-ips">—</span></dd>
+                        <dt>Adresse</dt><dd id="etab-adresse">—</dd>
+                        <dt>Ville</dt><dd id="etab-ville">—</dd>
+                        <dt>Académie</dt><dd id="etab-academie">—</dd>
+                        <dt>Coordonnées</dt><dd id="etab-coords" style="font-family:var(--mono);">—</dd>
+                    </dl>
                 </section>
             </div>
         </div>
-
     </main>
 </body>
 </html>

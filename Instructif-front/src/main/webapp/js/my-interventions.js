@@ -4,11 +4,7 @@ import { formatGrade } from './format.js';
 async function fetchMyInterventions() {
     try {
         const response = await fetch('ActionServlet?todo=my-interventions');
-        const data = await response.json();
-        console.log('[my-interventions] réponse serveur :', data);
-        console.log('[my-interventions] interventions :', data?.interventions);
-        console.log('[my-interventions] affectation courante :', data?.currentAssignment);
-        return data;
+        return await response.json();
     } catch (error) {
         console.error('[my-interventions] erreur fetch :', error);
         return null;
@@ -48,7 +44,7 @@ function renderCurrentAssignment(assignment) {
     document.getElementById('assignment-topic').textContent =
         `${assignment.subject} · ${assignment.topic}`;
     const joinBtn = document.getElementById('assignment-btn');
-    if (assignment.meetingLink) joinBtn.href = assignment.meetingLink;
+    joinBtn.href = 'demande-prise-en-charge.html?id=' + assignment.id;
 }
 
 function renderTable(interventions) {
