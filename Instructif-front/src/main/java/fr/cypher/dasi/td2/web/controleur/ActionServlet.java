@@ -6,17 +6,10 @@ package fr.cypher.dasi.td2.web.controleur;
 
 import com.samtheo.instructif.dao.JpaUtil;
 import fr.cypher.dasi.td2.web.modele.*;
-import fr.cypher.dasi.td2.web.vue.RegisterSerialisation;
-import fr.cypher.dasi.td2.web.vue.ListeDemandesSerialisation;
-import fr.cypher.dasi.td2.web.vue.DetailDemandeSerialisation;
-import fr.cypher.dasi.td2.web.vue.StatistiquesSerialisation;
-import fr.cypher.dasi.td2.web.vue.MyInterventionsSerialisation;
-import fr.cypher.dasi.td2.web.vue.EnvoyerBilanSerialisation;
+import fr.cypher.dasi.td2.web.vue.*;
 
 import java.io.IOException;
 
-import fr.cypher.dasi.td2.web.vue.StaffSerialisation;
-import fr.cypher.dasi.td2.web.vue.StudentSerialisation;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -81,13 +74,16 @@ public class ActionServlet extends HttpServlet {
                 new EnvoyerBilanAction().execute(request);
                 new EnvoyerBilanSerialisation().appliquer(request, response);
                 break;
+            case "subject-list":
+                new ConsulterListeMatieresAction().execute(request);
+                new ListeMatieresSerialisation().appliquer(request, response);
+                break;
             case "logout":
                 new LogoutAction().execute(request);
                 // Doesn't return anything
                 break;
             default:
-                new ConsulterListeDemandesAction().execute(request);
-                new ListeDemandesSerialisation().appliquer(request, response);
+                new NotFoundSerialisation().appliquer(request, response);
         }
     }
 

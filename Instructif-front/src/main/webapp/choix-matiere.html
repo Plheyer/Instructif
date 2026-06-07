@@ -94,7 +94,7 @@
         </nav>
         <div class="recent-block">
             <div class="recent-title">Demandes récentes</div>
-            <div class="recent-list">
+            <div class="recent-list" id="subject-list">
                 <!-- TODO -->
                 <a href="detail-demande-bilan.html" class="recent-item"><span class="ri-theme">La société féodale au Moyen-Âge</span><span class="ri-meta">Hist-Géo · 12/05</span></a>
                 <a href="detail-demande-bilan.html" class="recent-item"><span class="ri-theme">Théorème de Pythagore</span><span class="ri-meta">Maths · 09/05</span></a>
@@ -121,36 +121,22 @@
         <section class="filters">
             <div class="search-box">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                <input type="text" value="" placeholder="Rechercher une matière ou un thème...">
+                <input id="search-bar" type="text" value="" placeholder="Rechercher une matière ou un thème...">
             </div>
             <div class="filter-options">
                 <span>Rechercher dans :</span>
-                <label><input type="checkbox" checked> les matières</label>
-                <label><input type="checkbox" checked> les thèmes</label>
+                <label><input id="subject-checkbox" type="checkbox" checked> les matières</label>
+                <label><input id="theme-checkbox" type="checkbox" checked> les thèmes</label>
             </div>
-            <select>
+            <select id="subject-select">
                 <option>Trier par : A → Z</option>
                 <option>Trier par : Z → A</option>
             </select>
         </section>
 
-        <!-- TODO -->
-        <span class="match-count">1 matière · 2 thèmes correspondants</span>
+        <span id="subjects-results-number" class="match-count"></span>
 
-        <div class="subject-grid">
-            <a href="nouvelle-demande.html" class="subject-card">
-                <!-- TODO -->
-                <div class="subject-icon" style="background: #fff7ed; color: #f97316;">🌍</div>
-                <div class="subject-info">
-                    <h3>Histoire-Géographie</h3>
-                    <p>La société féodale au <b>Moyen</b>-Âge, Le royaume de France au <b>Moyen</b>-Âge...</p>
-                </div>
-                <div class="subject-footer">
-                    <span>8 thèmes</span>
-                    <span class="btn-choose">Choisir un thème ›</span>
-                </div>
-            </a>
-        </div>
+        <div id="subject-grid" class="subject-grid"></div>
     </main>
 </body>
 </html>
