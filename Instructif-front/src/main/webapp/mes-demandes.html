@@ -7,9 +7,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <script src="js/student-auth-middleware.js" defer></script>
+    <script src="js/student-auth-middleware.js" type="module" defer></script>
     <script src="js/logout.js" defer></script>
     <script src="js/side-bar.js" type="module" defer></script>
+    <script src="js/my-requests.js" type="module" defer></script>
     <style>
         :root {
             --bg: #f8fafc;
@@ -50,10 +51,6 @@
         .recent-block { margin: 0 1rem 1rem; padding: 1rem; background: #f8fafc; border: 1px solid var(--border); border-radius: 12px; }
         .recent-title { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); font-weight: 600; margin-bottom: 0.75rem; }
         .recent-list { display: flex; flex-direction: column; gap: 0.5rem; }
-        .recent-item { display: block; text-decoration: none; color: var(--text); padding: 0.5rem; border-radius: 8px; transition: background 0.2s; }
-        .recent-item:hover { background: #eef2ff; }
-        .recent-item .ri-theme { font-weight: 600; font-size: 0.75rem; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .recent-item .ri-meta { color: var(--text-muted); font-size: 0.7rem; }
 
         /* Main Content */
         main { flex: 1; margin-left: var(--sidebar-width); padding: 2rem 3rem; }
@@ -70,7 +67,7 @@
         tbody tr:last-child td { border-bottom: none; }
         tbody tr:hover { background: #f8fafc; }
 
-        .badge { display: inline-flex; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; font-family: var(--mono); }
+        .badge { display: inline-flex; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; font-family: var(--mono),serif; }
         .badge-success { background: #ecfdf5; color: #059669; }
         .badge-danger { background: #fef2f2; color: #dc2626; }
 
@@ -79,6 +76,7 @@
     </style>
 </head>
 <body>
+    <!-- TODO: sidebars + sidebar for detail-demande-bilan for both staff and student -->
     <aside>
         <div class="sidebar-header"><a href="choix-matiere.html" class="logo">INSTRUCT'IF</a></div>
         <nav>
@@ -114,7 +112,7 @@
                         <th>Détail</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="table-body">
                     <tr>
                         <td>12/05/2026</td>
                         <td>Histoire-Géographie › La société féodale au Moyen-Âge</td>

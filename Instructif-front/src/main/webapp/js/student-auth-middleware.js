@@ -1,4 +1,4 @@
-import {getMeStudent} from "./auth-middleware-helper";
+import {getMeStudent} from "./auth-middleware-helper.js";
 
 async function init() {
     const me = await getMeStudent();
