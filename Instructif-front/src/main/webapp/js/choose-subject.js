@@ -68,7 +68,7 @@ async function loadSubjectList() {
 
             const a = document.createElement("a");
             a.classList.add("subject-card");
-            a.href = 'nouvelle-demande.html'; // TODO which one clicked?
+            a.href = `nouvelle-demande.html?subjectId=${subject.id}&subjectName=${subject.name}`;
             a.appendChild(icon);
             a.appendChild(info);
             a.appendChild(footer);

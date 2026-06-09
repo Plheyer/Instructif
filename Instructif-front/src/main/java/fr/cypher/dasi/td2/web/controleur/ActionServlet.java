@@ -86,6 +86,14 @@ public class ActionServlet extends HttpServlet {
                 new RequestsListAction().execute(request);
                 new RequestsListSerialisation().appliquer(request, response);
                 break;
+            case "get-themes":
+                new GetThemesAction().execute(request);
+                new ThemesSerialisation().appliquer(request, response);
+                break;
+            case "send-request":
+                new SendRequestAction().execute(request);
+                new RequestSerialisation().appliquer(request, response);
+                break;
             case "logout":
                 new LogoutAction().execute(request);
                 // Doesn't return anything

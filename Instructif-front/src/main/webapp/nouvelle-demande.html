@@ -10,6 +10,7 @@
     <script src="js/student-auth-middleware.js" type="module" defer></script>
     <script src="js/logout.js" defer></script>
     <script src="js/side-bar.js" type="module" defer></script>
+    <script src="js/new-request.js" type="module" defer></script>
     <style>
         :root {
             --bg: #f8fafc;
@@ -75,10 +76,6 @@
         .recent-block { margin: 0 1rem 1rem; padding: 1rem; background: #f8fafc; border: 1px solid var(--border); border-radius: 12px; }
         .recent-title { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); font-weight: 600; margin-bottom: 0.75rem; }
         .recent-list { display: flex; flex-direction: column; gap: 0.5rem; }
-        .recent-item { display: block; text-decoration: none; color: var(--text); padding: 0.5rem; border-radius: 8px; transition: background 0.2s; }
-        .recent-item:hover { background: #eef2ff; }
-        .recent-item .ri-theme { font-weight: 600; font-size: 0.75rem; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .recent-item .ri-meta { color: var(--text-muted); font-size: 0.7rem; }
 
         .sidebar-footer { padding: 1.5rem; border-top: 1px solid var(--border); }
         .user-pill { display: flex; align-items: center; gap: 0.75rem; font-size: 0.875rem; }
@@ -87,6 +84,7 @@
 </head>
 <body>
     <aside>
+        <!-- TODO -->
         <div class="sidebar-header"><a href="choix-matiere.html" class="logo">INSTRUCT'IF</a></div>
         <nav>
             <a href="choix-matiere.html" class="nav-item active">Matières</a>
@@ -106,34 +104,25 @@
     </aside>
 
     <main>
-        <div class="breadcrumb"><a href="choix-matiere.html">Matières</a><span>/</span><span>Histoire-Géographie</span></div>
+        <div class="breadcrumb"><a href="choix-matiere.html">Matières</a><span>/</span><span id="subject-breadcrumb">Histoire-Géographie</span></div>
 
         <header class="page-header">
             <div class="page-title">
                 <h1>Précise ta demande</h1>
-                <p>Matière sélectionnée : <b>Histoire-Géographie</b></p>
+                <p>Matière sélectionnée : <b id="selected-subject">Histoire-Géographie</b></p>
             </div>
         </header>
 
-        <form action="demande-en-cours-visio.html" class="request-form">
+        <form action="demande-en-cours-visio.html" class="request-form" id="form" method="POST">
             <section class="form-section">
-                <h2 class="section-title">Thème * <span style="font-size: 0.875rem; color: var(--text-muted); font-weight: 400;">(matière : Histoire-Géographie)</span></h2>
-                <div class="theme-select">
-                    <label class="theme-option"><input type="radio" name="theme" required><span>L'Empire romain et son héritage</span></label>
-                    <label class="theme-option"><input type="radio" name="theme" required><span>La naissance du christianisme</span></label>
-                    <label class="theme-option"><input type="radio" name="theme" required><span>L'Empire byzantin</span></label>
-                    <label class="theme-option"><input type="radio" name="theme" required><span>L'Islam, naissance d'une civilisation</span></label>
-                    <label class="theme-option selected"><input type="radio" name="theme" checked required><span>La société féodale au Moyen-Âge</span></label>
-                    <label class="theme-option"><input type="radio" name="theme" required><span>Le royaume de France au Moyen-Âge</span></label>
-                    <label class="theme-option"><input type="radio" name="theme" required><span>L'humanisme et la Renaissance</span></label>
-                    <label class="theme-option"><input type="radio" name="theme" required><span>Les Grandes Découvertes</span></label>
-                </div>
+                <h2 class="section-title">Thème * <span id="theme-subject" style="font-size: 0.875rem; color: var(--text-muted); font-weight: 400;">(matière : Histoire-Géographie)</span></h2>
+                <div class="theme-select" id="theme-select"></div>
             </section>
 
             <section class="form-section">
                 <h2 class="section-title">Description *</h2>
                 <div class="form-group">
-                    <textarea id="desc" name="description" placeholder="Ex: Je ne comprends pas bien le rôle des vassaux dans le système féodal..." required>Je n'ai pas tout compris sur l'ordre seigneurial, et je suis bloquée pour commencer mon devoir d'histoire à rendre lundi.</textarea>
+                    <textarea id="desc" name="description" placeholder="Ex: Je ne comprends pas bien le rôle des vassaux dans le système féodal..." required></textarea>
                 </div>
             </section>
 
@@ -143,7 +132,7 @@
                 </div>
                 <div style="display: flex; gap: 1rem;">
                     <a href="choix-matiere.html" class="btn btn-ghost">Annuler</a>
-                    <button type="submit" class="btn btn-primary">Valider la demande</button>
+                    <button id="btnSubmit" type="button" class="btn btn-primary">Valider la demande</button>
                 </div>
             </div>
         </form>
