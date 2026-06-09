@@ -78,6 +78,11 @@ public class ActionServlet extends HttpServlet {
                 new ConsulterListeMatieresAction().execute(request);
                 new ListeMatieresSerialisation().appliquer(request, response);
                 break;
+            case "recent-list":
+                System.out.println("DEBUG");
+                new RecentListAction().execute(request);
+                new RecentListSerialisation().appliquer(request, response);
+                break;
             case "logout":
                 new LogoutAction().execute(request);
                 // Doesn't return anything

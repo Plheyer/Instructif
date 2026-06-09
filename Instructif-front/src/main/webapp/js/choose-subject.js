@@ -1,33 +1,10 @@
-import { getStudent } from "./localStorage-helper.js";
-
 async function init() {
     console.log("Initialisation de la page");
-    const student = getStudent();
-    if (!student || !student.firstName || !student.lastName || !student.schoolGrade) {
-        console.error("Can't load the student")
-        return;
-    }
-    initials(student);
-    studentName(student);
-    schoolGrade(student);
     await loadSubjectList();
-    document.getElementById('subject-list').addEventListener('click', loadSubjectList);
     document.getElementById('search-bar').addEventListener('input', loadSubjectList);
     document.getElementById('theme-checkbox').addEventListener('change', loadSubjectList);
     document.getElementById('subject-checkbox').addEventListener('change', loadSubjectList);
     document.getElementById('subject-select').addEventListener('change', loadSubjectList);
-}
-
-function initials(student) {
-    document.getElementById("initials").innerText = student.firstName[0].toUpperCase() + student.lastName[0].toUpperCase()
-}
-
-function studentName(student) {
-    document.getElementById("student-name").innerText = student.firstName + ' ' + student.lastName;
-}
-
-function schoolGrade(student) {
-    document.getElementById("student-school-grade").innerText = student.schoolGrade + 'ème';
 }
 
 async function loadSubjectList() {

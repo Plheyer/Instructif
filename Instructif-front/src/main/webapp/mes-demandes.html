@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <script src="js/student-auth-middleware.js" defer></script>
     <script src="js/logout.js" defer></script>
+    <script src="js/side-bar.js" type="module" defer></script>
     <style>
         :root {
             --bg: #f8fafc;
@@ -86,11 +87,7 @@
         </nav>
         <div class="recent-block">
             <div class="recent-title">Demandes récentes</div>
-            <div class="recent-list">
-                <a href="detail-demande-bilan.html" class="recent-item"><span class="ri-theme">La société féodale au Moyen-Âge</span><span class="ri-meta">Hist-Géo · 12/05</span></a>
-                <a href="detail-demande-bilan.html" class="recent-item"><span class="ri-theme">Théorème de Pythagore</span><span class="ri-meta">Maths · 09/05</span></a>
-                <a href="detail-demande-bilan.html" class="recent-item"><span class="ri-theme">Grammaire</span><span class="ri-meta">Français · 05/05</span></a>
-            </div>
+            <div class="recent-list" id="recent-list"></div>
         </div>
         <div class="sidebar-footer">
             <div class="user-pill">

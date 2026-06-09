@@ -1,17 +1,7 @@
-async function getMe() {
-    const todo = "me-staff";
-    const url = `ActionServlet?todo=${todo}`;
-    try {
-        const response = await fetch(url);
-        return await response.json();
-    } catch (error) {
-        console.log(error);
-        return null;
-    }
-}
+import {getMeStaff} from "./auth-middleware-helper";
 
 async function init() {
-    const me = await getMe();
+    const me = await getMeStaff();
     if (!me) {
         console.error("Not logged in.");
         window.location.href = 'index.html';

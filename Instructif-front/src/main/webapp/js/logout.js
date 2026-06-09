@@ -10,12 +10,12 @@ async function logout(key) {
 }
 
 function init() {
-    document.getElementById('logoutStudentBtn').addEventListener("click", async () => {
+    document.getElementById('logoutStudentBtn')?.addEventListener("click", async () => {
         await logout("eleve");
         document.location.href = 'index.html';
     });
 
-    document.getElementById('logoutStaffBtn').addEventListener("click", async () => {
+    document.getElementById('logoutStaffBtn')?.addEventListener("click", async () => {
         await logout("staff");
         document.location.href = 'index.html';
     });
