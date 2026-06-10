@@ -1,5 +1,6 @@
-import { getStaff } from './localStorage-helper.js';
+import {getStaff, getStudent} from './localStorage-helper.js';
 import { formatGrade } from './format.js';
+import {loadRecentList} from "./aside-helper.js";
 
 async function fetchDetail(id) {
     try {
@@ -21,27 +22,79 @@ async function fetchInterventions() {
     }
 }
 
-function renderSidebar(staff, interventionsData, currentId) {
-    if (staff) {
-        document.getElementById('sidebar-initials').textContent =
-            (staff.firstName[0] + staff.lastName[0]).toUpperCase();
-        document.getElementById('sidebar-name').textContent =
-            `${staff.firstName} ${staff.lastName}`;
+async function renderSidebar(user, interventionsData, currentId, isStaff) {
+    if (user) {
+        document.getElementById('initials').textContent =
+            (user.firstName[0] + user.lastName[0]).toUpperCase();
+        document.getElementById('name').textContent =
+            `${user.firstName} ${user.lastName}`;
     }
 
+    const nav = document.getElementById("nav");
+    nav.innerText = "";
     const list = document.getElementById('recent-list');
-    const recentes = interventionsData?.interventions?.slice(0, 5) ?? [];
-    if (recentes.length === 0) {
-        list.innerHTML = '<span style="font-size:0.75rem;color:var(--text-muted)">Aucune intervention</span>';
-        return;
-    }
-    list.innerHTML = recentes.map(r => {
-        const isActive = r.id === currentId ? 'style="background:#eef2ff"' : '';
-        return `<a href="detail-demande-bilan.html?id=${r.id}" class="recent-item" ${isActive}>
+
+    if (isStaff) {
+        const div = document.createElement("div");
+        div.classList.add("nav-label");
+        div.innerText = "Intervenant";
+        const aInterventions = document.createElement("a");
+        aInterventions.classList.add("nav-item");
+        aInterventions.innerText = "Mes interventions";
+        aInterventions.href = "mes-interventions.html";
+        const aStats = document.createElement("a");
+        aStats.classList.add("nav-item");
+        aStats.innerText = "Statistiques";
+        aStats.href = "statistiques.html";
+        nav.appendChild(div);
+        nav.appendChild(aInterventions);
+        nav.appendChild(aStats);
+
+        document.getElementById("recent-list-title").innerText = "Interventions récentes";
+
+        document.getElementById("backToList").href = "mes-interventions.html";
+
+        const recentes = interventionsData?.interventions?.slice(0, 5) ?? [];
+        if (recentes.length === 0) {
+            list.innerHTML = '<span style="font-size:0.75rem;color:var(--text-muted)">Aucune intervention</span>';
+            return;
+        }
+        list.innerHTML = recentes.map(r => {
+            const isActive = r.id === currentId ? 'style="background:#eef2ff"' : '';
+            return `<a href="detail-demande-bilan.html?id=${r.id}" class="recent-item" ${isActive}>
             <span class="ri-theme">${r.topic}</span>
             <span class="ri-meta">${r.subject} · ${r.startDate}</span>
         </a>`;
-    }).join('');
+        }).join('');
+    } else {
+        const aSubject = document.createElement("a");
+        aSubject.classList.add("nav-item");
+        aSubject.href = "choix-matiere.html";
+        aSubject.innerText = "Matières";
+        const aRequest = document.createElement("a");
+        aRequest.classList.add("nav-item");
+        aRequest.innerText = "Ma demande";
+        aRequest.href = "#";
+        const aRequests = document.createElement("a");
+        aRequests.classList.add("nav-item", "active");
+        aRequests.innerText = "Mes demandes";
+        aRequests.href = "mes-demandes.html";
+        nav.appendChild(aSubject);
+        nav.appendChild(aRequest);
+        nav.appendChild(aRequests);
+
+        document.getElementById("recent-list-title").innerText = "Demandes récentes";
+
+        const schoolGradeDiv = document.createElement("div");
+        schoolGradeDiv.id = "student-school-grade";
+        schoolGradeDiv.style = "font-size: 0.75rem; color: var(--text-muted);";
+        schoolGradeDiv.innerText = user.schoolGrade + 'ème';
+        document.getElementById("footer-text").appendChild(schoolGradeDiv);
+
+        document.getElementById("backToList").href = "mes-demandes.html";
+
+        await loadRecentList();
+    }
 }
 
 function statusBadge(status) {
@@ -98,13 +151,16 @@ async function init() {
     const id = parseInt(params.get('id'), 10);
 
     const staff = getStaff();
+    const student = getStudent();
     const [detail, interventionsData] = await Promise.all([
         fetchDetail(id),
         fetchInterventions()
     ]);
     if (!detail) return;
 
-    renderSidebar(staff, interventionsData, id);
+    const user = staff === null ? student : staff;
+    const isStaff = staff !== null;
+    await renderSidebar(user, interventionsData, id, isStaff);
     render(detail, id);
 }
 

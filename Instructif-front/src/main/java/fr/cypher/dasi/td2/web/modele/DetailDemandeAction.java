@@ -10,11 +10,6 @@ public class DetailDemandeAction extends Action {
 
     @Override
     public void execute(HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        if (session == null) return;
-        Intervenant staff = (Intervenant) session.getAttribute("staff");
-        if (staff == null) return;
-
         String idStr = request.getParameter("id");
         if (idStr == null) return;
         long id;
@@ -26,13 +21,6 @@ public class DetailDemandeAction extends Action {
 
         ServiceDemande serviceDemande = new ServiceDemande();
         Demande demande = serviceDemande.trouverDemandeParId(id);
-
-        // Ownership guard: only the assigned intervenant can read this demande.
-        // Prevents horizontal privilege escalation (staff A reading staff B's session).
-        if (demande == null || demande.getIntervenant() == null
-                || !demande.getIntervenant().getId().equals(staff.getId())) {
-            return;
-        }
 
         request.setAttribute("demande", demande);
     }

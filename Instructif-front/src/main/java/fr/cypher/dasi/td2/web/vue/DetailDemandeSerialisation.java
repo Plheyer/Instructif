@@ -96,23 +96,27 @@ public class DetailDemandeSerialisation extends Serialisation {
 
         // Intervenant
         Intervenant i = demande.getIntervenant();
-        JsonObjectBuilder iJson = Json.createObjectBuilder();
-        iJson.add("initials", (i.getPrenom().substring(0, 1) + i.getNom().substring(0, 1)).toUpperCase());
-        iJson.add("fullName", i.getPrenom() + " " + i.getNom().toUpperCase());
-        String typeLabel;
-        if (i instanceof IntervenantEtudiant e) {
-            typeLabel = "Intervenant étudiant"
-                    + (e.getUniversite() != null ? " · " + e.getUniversite() : "")
-                    + (e.getSpecialite() != null ? " · " + e.getSpecialite() : "");
-        } else if (i instanceof IntervenantEnseignant e) {
-            typeLabel = "Enseignant" + (e.getTypeEtablissement() != null ? " · " + e.getTypeEtablissement() : "");
-        } else if (i instanceof IntervenantAutre e) {
-            typeLabel = e.getActivite() != null ? e.getActivite() : "Intervenant";
+        if (i != null) {
+            JsonObjectBuilder iJson = Json.createObjectBuilder();
+            iJson.add("initials", (i.getPrenom().substring(0, 1) + i.getNom().substring(0, 1)).toUpperCase());
+            iJson.add("fullName", i.getPrenom() + " " + i.getNom().toUpperCase());
+            String typeLabel;
+            if (i instanceof IntervenantEtudiant e) {
+                typeLabel = "Intervenant étudiant"
+                        + (e.getUniversite() != null ? " · " + e.getUniversite() : "")
+                        + (e.getSpecialite() != null ? " · " + e.getSpecialite() : "");
+            } else if (i instanceof IntervenantEnseignant e) {
+                typeLabel = "Enseignant" + (e.getTypeEtablissement() != null ? " · " + e.getTypeEtablissement() : "");
+            } else if (i instanceof IntervenantAutre e) {
+                typeLabel = e.getActivite() != null ? e.getActivite() : "Intervenant";
+            } else {
+                typeLabel = "Intervenant";
+            }
+            iJson.add("typeLabel", typeLabel);
+            root.add("intervenant", iJson);
         } else {
-            typeLabel = "Intervenant";
+            root.add("intervenant", "null");
         }
-        iJson.add("typeLabel", typeLabel);
-        root.add("intervenant", iJson);
 
         response.getWriter().print(root.build().toString());
     }

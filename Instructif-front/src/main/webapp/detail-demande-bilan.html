@@ -7,9 +7,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script type="module" src="js/detail-demande.js"></script>
     <script src="js/auth-middleware.js" type="module" defer></script>
     <script src="js/logout.js" defer></script>
-    <script type="module" src="js/detail-demande.js"></script>
     <style>
         :root {
             --bg: #f8fafc;
@@ -52,7 +52,7 @@
         .recent-item:hover { background: #eef2ff; }
         .recent-item .ri-theme { font-weight: 600; font-size: 0.75rem; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .recent-item .ri-meta { color: var(--text-muted); font-size: 0.7rem; }
-        .sidebar-footer { padding: 1.5rem; border-top: 1px solid var(--border); }
+        .footer { padding: 1.5rem; border-top: 1px solid var(--border); }
         .user-pill { display: flex; align-items: center; gap: 0.75rem; font-size: 0.875rem; }
         .avatar { width: 32px; height: 32px; background: #e2e8f0; border-radius: 9999px; display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--text-muted); }
 
@@ -94,26 +94,24 @@
 <body>
     <aside>
         <div class="sidebar-header"><a href="mes-interventions.html" class="logo">INSTRUCT'IF</a></div>
-        <nav>
-            <div class="nav-label">Intervenant</div>
-            <a href="mes-interventions.html" class="nav-item">Mes interventions</a>
-            <a href="statistiques.html" class="nav-item">Statistiques</a>
-        </nav>
-        <div class="recent-block">
-            <div class="recent-title">Interventions récentes</div>
+        <nav id="nav"></nav>
+
+        <div class="recent-block" id="recent-block">
+            <div class="recent-title" id="recent-list-title"></div>
+
             <div id="recent-list" class="recent-list">—</div>
         </div>
-        <div class="sidebar-footer">
+        <div class="footer">
             <div class="user-pill">
-                <div id="sidebar-initials" class="avatar">—</div>
-                <div><div id="sidebar-name" style="font-weight:600;">—</div></div>
+                <div id="initials" class="avatar">—</div>
+                <div id="footer-text"><div id="name" style="font-weight:600;">—</div></div>
             </div>
             <button id="logoutStaffBtn" style="display:block;background:none;border:0;cursor:pointer;margin-top:1rem;font-size:0.75rem;color:var(--brand);font-weight:600;">Déconnexion</button>
         </div>
     </aside>
 
     <main>
-        <a href="mes-interventions.html" class="btn-back">← Retour à la liste</a>
+        <a href="" class="btn-back" id="backToList">← Retour à la liste</a>
 
         <header class="page-header">
             <h1 id="page-title">—</h1>
