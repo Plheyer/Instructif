@@ -45,7 +45,7 @@ public class ServiceDemande {
             Eleve eleve = eleveDao.findById(idEleve);
             Theme theme = themeDao.findById(idTheme);
             if (eleve != null && theme != null) {
-                String lienVisio = genererLienVisio(eleve.getId());
+                String lienVisio = genererLienVisioCorrect(eleve.getEmail(), "");
                 JpaUtil.ouvrirTransaction();
                 demande = new Demande(description, Statut.EN_COURS, lienVisio,
                         null, null, eleve, theme);
@@ -56,6 +56,7 @@ public class ServiceDemande {
                 intervenant = chercherIntervenant(eleve.getNiveau());
                 if (intervenant != null) {
                     affecterIntervenant(demande, intervenant);  // reste EN_COURS, dateHeureDebut = now()
+                    demande.setLienVisio(genererLienVisioCorrect(eleve.getEmail(), intervenant.getLogin()));
                 } else {
                     demande.setStatut(Statut.ANNULEE);           // aucun intervenant -> annulation auto
                     demande.setDateHeureFin(new Date());
@@ -170,5 +171,12 @@ public class ServiceDemande {
         return "https://servif.insa-lyon.fr/InteractIF/visio.html"
                 + "?eleve=" + URLEncoder.encode(String.valueOf(idEleve), StandardCharsets.UTF_8)
                 + "&token=" + token;
+    }
+
+    private String genererLienVisioCorrect(String studentEmail, String staffName) {
+        long token = System.currentTimeMillis();
+        return "https://servif.insa-lyon.fr/InteractIF/visio.html"
+                + "?eleve=" + URLEncoder.encode(studentEmail, StandardCharsets.UTF_8)
+                + "&intervenant=" + staffName;
     }
 }
