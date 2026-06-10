@@ -1,6 +1,7 @@
 import {getStaff, getStudent} from './localStorage-helper.js';
 import { formatGrade } from './format.js';
 import {loadRecentList} from "./aside-helper.js";
+import {getMeStaff, getMeStudent} from "./auth-middleware-helper";
 
 async function fetchDetail(id) {
     try {
@@ -152,13 +153,14 @@ async function init() {
 
     const staff = getStaff();
     const student = getStudent();
+    const meStaff = await getMeStaff()
     const [detail, interventionsData] = await Promise.all([
         fetchDetail(id),
         fetchInterventions()
     ]);
     if (!detail) return;
 
-    const user = staff === null ? student : staff;
+    const user = staff === null && meStaff === null ? student : staff;
     const isStaff = staff !== null;
     await renderSidebar(user, interventionsData, id, isStaff);
     render(detail, id);
