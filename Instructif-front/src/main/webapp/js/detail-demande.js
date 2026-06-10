@@ -1,7 +1,7 @@
 import {getStaff, getStudent} from './localStorage-helper.js';
 import { formatGrade } from './format.js';
 import {loadRecentList} from "./aside-helper.js";
-import {getMeStaff, getMeStudent} from "./auth-middleware-helper";
+import {getMeStaff} from "./auth-middleware-helper.js";
 
 async function fetchDetail(id) {
     try {
