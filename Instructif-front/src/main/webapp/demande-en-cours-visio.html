@@ -10,6 +10,7 @@
     <script src="js/student-auth-middleware.js" type="module" defer></script>
     <script src="js/logout.js" defer></script>
     <script src="js/side-bar.js" type="module" defer></script>
+    <script src="js/request-in-progress.js" type="module" defer></script>
     <style>
         :root {
             --bg: #f8fafc;
@@ -113,26 +114,26 @@
     </aside>
 
     <main>
-        <div class="status-banner"><div class="pulse"></div>Un intervenant t'attend en visio</div>
+        <!--<div class="status-banner"><div class="pulse"></div>Un intervenant t'attend en visio</div>-->
 
-        <section class="visio-card">
+        <section class="visio-card" id="link-card">
             <h2>Accéder à la salle virtuelle</h2>
             <p>Clique sur le lien ci-dessous pour rejoindre la séance.</p>
-            <a href="#" class="btn-visio">Rejoindre la visio</a>
+            <a href="#" class="btn-visio" id="btn-visio">Rejoindre la visio</a>
         </section>
 
         <div class="details-grid">
             <div class="card">
                 <h3>Ma demande</h3>
-                <div class="data-row"><label>Statut</label><span class="badge-status">Session en cours</span></div>
-                <div class="data-row"><label>Thème</label><span>La société féodale au Moyen-Âge · Histoire-Géographie</span></div>
-                <div class="data-row"><label>Description</label><span style="font-weight: 400; font-style: italic;">Je n'ai pas tout compris sur l'ordre seigneurial...</span></div>
+                <div class="data-row"><label>Statut</label><span class="badge-status" id="status">Session en cours</span></div>
+                <div class="data-row"><label>Thème</label><span id="subject-theme">La société féodale au Moyen-Âge · Histoire-Géographie</span></div>
+                <div class="data-row"><label>Description</label><span style="font-weight: 400; font-style: italic;" id="description">Je n'ai pas tout compris sur l'ordre seigneurial...</span></div>
             </div>
 
             <div class="card">
                 <h3>Horaires</h3>
-                <div class="data-row"><label>Heure de début</label><span>12/05/2026 17:14</span></div>
-                <div class="data-row"><label>Heure de fin</label><span style="color: var(--text-muted); font-weight: 400;">(Disponible après la séance)</span></div>
+                <div class="data-row"><label>Heure de début</label><span id="startDate"></span></div>
+                <div class="data-row"><label>Heure de fin</label><span style="color: var(--text-muted); font-weight: 400;" id="endDate"></span></div>
             </div>
         </div>
 

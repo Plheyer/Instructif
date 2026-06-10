@@ -19,7 +19,7 @@ import java.text.SimpleDateFormat;
  * @author clemaire
  */
 public class RequestSerialisation extends Serialisation {
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
     @Override
     public void appliquer(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -36,6 +36,7 @@ public class RequestSerialisation extends Serialisation {
         jsonObjectBuilder.add("startDate", demande.getDateHeureDebut() != null ? DATE_FORMAT.format(demande.getDateHeureDebut()) : "");
         jsonObjectBuilder.add("endDate", demande.getDateHeureFin() != null ? DATE_FORMAT.format(demande.getDateHeureFin()) : "");
         jsonObjectBuilder.add("theme", demande.getTheme().getIntitule());
+        jsonObjectBuilder.add("subject", demande.getTheme().getMatiere().getNom());
         response.getWriter().print(jsonObjectBuilder.build().toString());
     }
 }

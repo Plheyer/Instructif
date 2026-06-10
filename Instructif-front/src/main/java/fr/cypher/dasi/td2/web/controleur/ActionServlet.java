@@ -94,6 +94,10 @@ public class ActionServlet extends HttpServlet {
                 new SendRequestAction().execute(request);
                 new RequestSerialisation().appliquer(request, response);
                 break;
+            case "request":
+                new RequestAction().execute(request);
+                new RequestSerialisation().appliquer(request, response);
+                break;
             case "logout":
                 new LogoutAction().execute(request);
                 // Doesn't return anything

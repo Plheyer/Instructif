@@ -96,7 +96,7 @@ async function sendRequest() {
             }
         );
     if (jsonResponse && jsonResponse.id) {
-        form.action = `demande-en-cours-visio.html?requestId${jsonResponse.id}`
+        form.action = `demande-en-cours-visio.html?requestId=${jsonResponse.id}`;
         form.submit();
     } else {
         alert("Problème lors de l'envoi de la demande, veuillez réessayer plus tard.");
