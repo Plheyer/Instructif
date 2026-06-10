@@ -51,6 +51,10 @@
         .recent-block { margin: 0 1rem 1rem; padding: 1rem; background: #f8fafc; border: 1px solid var(--border); border-radius: 12px; }
         .recent-title { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); font-weight: 600; margin-bottom: 0.75rem; }
         .recent-list { display: flex; flex-direction: column; gap: 0.5rem; }
+        .recent-item { display: block; text-decoration: none; color: var(--text); padding: 0.5rem; border-radius: 8px; transition: background 0.2s; }
+        .recent-item:hover { background: #eef2ff; }
+        .recent-item .ri-theme { font-weight: 600; font-size: 0.75rem; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .recent-item .ri-meta { color: var(--text-muted); font-size: 0.7rem; }
 
         /* Main Content */
         main { flex: 1; margin-left: var(--sidebar-width); padding: 2rem 3rem; }
@@ -76,7 +80,6 @@
     </style>
 </head>
 <body>
-    <!-- TODO: sidebars + sidebar for detail-demande-bilan for both staff and student -->
     <aside>
         <div class="sidebar-header"><a href="choix-matiere.html" class="logo">INSTRUCT'IF</a></div>
         <nav>
@@ -89,8 +92,8 @@
         </div>
         <div class="sidebar-footer">
             <div class="user-pill">
-                <div class="avatar">AP</div>
-                <div><div style="font-weight: 600;">Alice Pascal</div><div style="font-size: 0.75rem; color: var(--text-muted);">5ème</div></div>
+                <div class="avatar" id="initials"></div>
+                <div><div id="student-name" style="font-weight: 600;"></div><div id="student-school-grade" style="font-size: 0.75rem; color: var(--text-muted);">5ème</div></div>
             </div>
             <button id="logoutStudentBtn" style="display: block; background: none; border: 0; cursor: pointer; margin-top: 1rem; font-size: 0.75rem; color: var(--brand); text-decoration: none; font-weight: 600;">Déconnexion</button>
         </div>
@@ -112,44 +115,7 @@
                         <th>Détail</th>
                     </tr>
                 </thead>
-                <tbody id="table-body">
-                    <tr>
-                        <td>12/05/2026</td>
-                        <td>Histoire-Géographie › La société féodale au Moyen-Âge</td>
-                        <td><span class="badge badge-success">TERMINEE</span></td>
-                        <td><a href="detail-demande-bilan.html" class="link-action">Voir le détail ›</a></td>
-                    </tr>
-                    <tr>
-                        <td>09/05/2026</td>
-                        <td>Mathématiques › Théorème de Pythagore</td>
-                        <td><span class="badge badge-success">TERMINEE</span></td>
-                        <td><a href="detail-demande-bilan.html" class="link-action">Voir le détail ›</a></td>
-                    </tr>
-                    <tr>
-                        <td>05/05/2026</td>
-                        <td>Français › Grammaire</td>
-                        <td><span class="badge badge-success">TERMINEE</span></td>
-                        <td><a href="detail-demande-bilan.html" class="link-action">Voir le détail ›</a></td>
-                    </tr>
-                    <tr>
-                        <td>02/05/2026</td>
-                        <td>Sciences › Le système solaire</td>
-                        <td><span class="badge badge-success">TERMINEE</span></td>
-                        <td><a href="detail-demande-bilan.html" class="link-action">Voir le détail ›</a></td>
-                    </tr>
-                    <tr>
-                        <td>28/04/2026</td>
-                        <td>Anglais › Past simple</td>
-                        <td><span class="badge badge-danger">ANNULEE</span></td>
-                        <td><span style="color: var(--text-muted);">—</span></td>
-                    </tr>
-                    <tr>
-                        <td>25/04/2026</td>
-                        <td>Histoire-Géographie › La Révolution française</td>
-                        <td><span class="badge badge-success">TERMINEE</span></td>
-                        <td><a href="detail-demande-bilan.html" class="link-action">Voir le détail ›</a></td>
-                    </tr>
-                </tbody>
+                <tbody id="table-body"></tbody>
             </table>
         </div>
     </main>

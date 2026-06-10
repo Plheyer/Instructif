@@ -37,7 +37,7 @@ async function loadRequest() {
         description.innerText = res.description;
 
         const btnVisio = document.getElementById("btn-visio");
-        btnVisio.innerText = res.visioLink;
+        btnVisio.href = res.visioLink;
 
         const startDate = document.getElementById("startDate");
         startDate.innerText = res.startDate !== "" && res.startDate !== "null" ? res.startDate : "N/A";
