@@ -73,11 +73,11 @@ async function renderSidebar(user, interventionsData, currentId, isStaff) {
         aSubject.href = "choix-matiere.html";
         aSubject.innerText = "Matières";
         const aRequest = document.createElement("a");
-        aRequest.classList.add("nav-item");
+        aRequest.classList.add("nav-item", "active");
         aRequest.innerText = "Ma demande";
         aRequest.href = "#";
         const aRequests = document.createElement("a");
-        aRequests.classList.add("nav-item", "active");
+        aRequests.classList.add("nav-item");
         aRequests.innerText = "Mes demandes";
         aRequests.href = "mes-demandes.html";
         nav.appendChild(aSubject);
