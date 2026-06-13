@@ -19,7 +19,6 @@ public class RecentListSerialisation extends Serialisation {
     @Override
     public void appliquer(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json;charset=UTF-8");
-
         List<Demande> recents = (List<Demande>) request.getAttribute("recents");
 
         JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();

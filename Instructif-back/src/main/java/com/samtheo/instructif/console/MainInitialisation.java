@@ -1,5 +1,6 @@
 package com.samtheo.instructif.console;
 
+import com.samtheo.instructif.dao.DemandeDAO;
 import com.samtheo.instructif.dao.JpaUtil;
 import com.samtheo.instructif.metier.modele.Demande;
 import com.samtheo.instructif.metier.modele.Eleve;
@@ -26,6 +27,12 @@ import java.util.List;
 public class MainInitialisation {
 
     private static final SimpleDateFormat ISO = new SimpleDateFormat("yyyy-MM-dd");
+
+    // Durées (minutes) appliquées aux soutiens de seed. Sans ça, début == fin
+    // (créés/clôturés dans le même instant) → durée 0 → moyenne nulle à l'IHM.
+    private static final DemandeDAO DEMANDE_DAO = new DemandeDAO();
+    private static final int[] DUREES_MIN = {45, 60, 30, 50, 40, 55};
+    private static int dureeIdx = 0;
 
     public static void main(String[] args) {
         JpaUtil.creerFabriquePersistance("drop-and-create");
@@ -134,6 +141,7 @@ public class MainInitialisation {
             if (d != null && d.getStatut() == Statut.EN_COURS) {
                 serviceBilan.envoyerBilan(d.getId(),
                         "Séance de calibrage clôturée.", "Aucun conseil particulier.");
+                appliquerDuree(d.getId(), prochaineDuree());
                 generees++;
             }
         }
@@ -166,6 +174,7 @@ public class MainInitialisation {
                         : "Séance finalisée.";
                 String conseils = isCamille ? "Poursuivre les exercices du chapitre suivant." : null;
                 serviceBilan.envoyerBilan(d.getId(), texte, conseils);
+                appliquerDuree(d.getId(), prochaineDuree());
                 if (isCamille) done++;
             }
             attempts++;
@@ -189,6 +198,7 @@ public class MainInitialisation {
             Demande buf = serviceDemande.creerDemande(eleve.getId(), theme.getId(), "Calibrage final.");
             if (buf != null && buf.getStatut() == Statut.EN_COURS) {
                 serviceBilan.envoyerBilan(buf.getId(), "Calibrage finalisé.", null);
+                appliquerDuree(buf.getId(), prochaineDuree());
             }
         }
         Demande enCours = serviceDemande.creerDemande(eleve.getId(), theme.getId(),
@@ -227,6 +237,33 @@ public class MainInitialisation {
             }
         }
         return null;
+    }
+
+    // Recule dateHeureDebut de `minutes` avant dateHeureFin pour donner une
+    // durée réaliste au soutien clôturé (les services posent début et fin au
+    // même instant lors du seed). Transaction dédiée via le DAO.
+    private static void appliquerDuree(Long idDemande, int minutes) {
+        if (idDemande == null) return;
+        try {
+            JpaUtil.creerContextePersistance();
+            JpaUtil.ouvrirTransaction();
+            Demande d = DEMANDE_DAO.findById(idDemande);
+            if (d != null && d.getDateHeureFin() != null) {
+                d.setDateHeureDebut(new Date(
+                        d.getDateHeureFin().getTime() - minutes * 60000L));
+                DEMANDE_DAO.update(d);
+            }
+            JpaUtil.validerTransaction();
+        } catch (Exception ex) {
+            JpaUtil.annulerTransaction();
+            ex.printStackTrace(System.err);
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+    }
+
+    private static int prochaineDuree() {
+        return DUREES_MIN[dureeIdx++ % DUREES_MIN.length];
     }
 
     private static Date parseDate(String iso) {
