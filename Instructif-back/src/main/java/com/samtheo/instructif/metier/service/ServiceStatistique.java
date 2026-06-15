@@ -39,6 +39,7 @@ public class ServiceStatistique {
             Set<Etablissement> beneficiaires = etablissementsBeneficiaires(soutiens);
             Map<String, Long> parAcademie = repartitionParAcademie(beneficiaires);
             Map<String, Long> parTrancheIps = repartitionParTrancheIps(beneficiaires);
+            //Map<String, Long> parCarte = repartitionCarte(beneficiaires);
 
             stats = new StatistiquesReseau(nombreSoutiens, dureeMoyenne,
                     parAcademie, parTrancheIps);
@@ -65,6 +66,20 @@ public class ServiceStatistique {
         }
         return comptes == 0 ? 0.0 : (double) totalMinutes / comptes;
     }
+    
+    public Set<Etablissement> getEtablissements() {
+        Set<Etablissement> etab = Set.of();
+        try {
+            JpaUtil.creerContextePersistance();
+            List<Demande> soutiens = demandeDao.findByStatut(Statut.TERMINEE);
+            etab = etablissementsBeneficiaires(soutiens);
+        } catch (Exception ex) {
+            ex.printStackTrace(System.err);
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+        return etab;
+    }
 
     private static Set<Etablissement> etablissementsBeneficiaires(List<Demande> soutiens) {
         Set<Etablissement> beneficiaires = new HashSet<>();
@@ -86,6 +101,15 @@ public class ServiceStatistique {
         }
         return parAcademie;
     }
+
+    //private static Map<String, Long> repartitionCarte(Set<Etablissement> etablissements) {
+    //    Map<String, Long> stats = new TreeMap<>();
+    //    for (Etablissement e : etablissements) {
+    //        String key = e.getLatitude() + ";" + e.getLongitude();
+    //        stats.merge(key, 1L, Long::sum);
+    //    }
+    //    return stats;
+    //}
 
     private static Map<String, Long> repartitionParTrancheIps(Set<Etablissement> etablissements) {
         Map<String, Long> parTranche = new LinkedHashMap<>();

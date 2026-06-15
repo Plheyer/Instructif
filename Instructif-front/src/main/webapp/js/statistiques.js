@@ -49,6 +49,18 @@ function renderTable(tbodyId, rows) {
     ).join('');
 }
 
+function renderMap(stats) {
+    const map = L.map('map').setView([46.40, 2.724], 5.42);
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    stats.map(r => {
+        L.marker([r.latitude, r.longitude]).addTo(map).bindPopup(r.name);
+    });
+}
+
 async function init() {
     const staff = getStaff();
     const [stats, interventionsData] = await Promise.all([fetchStats(), fetchInterventions()]);
@@ -61,6 +73,7 @@ async function init() {
         stats.dureeMoyenneMinutes > 0 ? stats.dureeMoyenneMinutes : '—';
     renderTable('tbody-academie', stats.parAcademie);
     renderTable('tbody-ips', stats.parTrancheIps);
+    renderMap(stats.parCarte);
 }
 
 window.addEventListener('load', init);
